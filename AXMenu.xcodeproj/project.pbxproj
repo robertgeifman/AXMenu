@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E14336812B13CA1F0007B603 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14336802B13CA1F0007B603 /* AppDelegate.swift */; };
+		E14336872B13CA6D0007B603 /* AXEssibility in Frameworks */ = {isa = PBXBuildFile; productRef = E14336862B13CA6D0007B603 /* AXEssibility */; };
 		E1B5C7482B13C9BC00F5FA04 /* AXMenuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B5C7472B13C9BC00F5FA04 /* AXMenuApp.swift */; };
 		E1B5C74A2B13C9BC00F5FA04 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B5C7492B13C9BC00F5FA04 /* ContentView.swift */; };
 		E1B5C74C2B13C9BD00F5FA04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1B5C74B2B13C9BD00F5FA04 /* Assets.xcassets */; };
@@ -14,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E14336802B13CA1F0007B603 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E14336822B13CA5E0007B603 /* AXEssibility */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AXEssibility; path = ../Packages/AXEssibility; sourceTree = "<group>"; };
 		E1B5C7442B13C9BC00F5FA04 /* AXMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AXMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1B5C7472B13C9BC00F5FA04 /* AXMenuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXMenuApp.swift; sourceTree = "<group>"; };
 		E1B5C7492B13C9BC00F5FA04 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -27,17 +31,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E14336872B13CA6D0007B603 /* AXEssibility in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E14336852B13CA6D0007B603 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E1B5C73B2B13C9BC00F5FA04 = {
 			isa = PBXGroup;
 			children = (
 				E1B5C7462B13C9BC00F5FA04 /* AXMenu */,
+				E14336822B13CA5E0007B603 /* AXEssibility */,
 				E1B5C7452B13C9BC00F5FA04 /* Products */,
+				E14336852B13CA6D0007B603 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -52,6 +66,7 @@
 		E1B5C7462B13C9BC00F5FA04 /* AXMenu */ = {
 			isa = PBXGroup;
 			children = (
+				E14336802B13CA1F0007B603 /* AppDelegate.swift */,
 				E1B5C7472B13C9BC00F5FA04 /* AXMenuApp.swift */,
 				E1B5C7492B13C9BC00F5FA04 /* ContentView.swift */,
 				E1B5C74B2B13C9BD00F5FA04 /* Assets.xcassets */,
@@ -83,8 +98,12 @@
 			buildRules = (
 			);
 			dependencies = (
+				E14336842B13CA680007B603 /* PBXTargetDependency */,
 			);
 			name = AXMenu;
+			packageProductDependencies = (
+				E14336862B13CA6D0007B603 /* AXEssibility */,
+			);
 			productName = AXMenu;
 			productReference = E1B5C7442B13C9BC00F5FA04 /* AXMenu.app */;
 			productType = "com.apple.product-type.application";
@@ -139,12 +158,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E14336812B13CA1F0007B603 /* AppDelegate.swift in Sources */,
 				E1B5C74A2B13C9BC00F5FA04 /* ContentView.swift in Sources */,
 				E1B5C7482B13C9BC00F5FA04 /* AXMenuApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E14336842B13CA680007B603 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = E14336832B13CA680007B603 /* AXEssibility */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		E1B5C7512B13C9BD00F5FA04 /* Debug */ = {
@@ -271,6 +298,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AXMenu/AXMenu.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -298,6 +326,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AXMenu/AXMenu.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -341,6 +370,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E14336832B13CA680007B603 /* AXEssibility */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AXEssibility;
+		};
+		E14336862B13CA6D0007B603 /* AXEssibility */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AXEssibility;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E1B5C73C2B13C9BC00F5FA04 /* Project object */;
 }
