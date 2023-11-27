@@ -1,0 +1,13 @@
+.DS_Store
+Icon?
+.build
+xcuserdata
+xcshareddata
+.swiftpm
+.github
+*.xcbkptlist
+*.xcworkspace
+Package.resolved
+*.xcuserdatad
+xcschememanagement.plist
+Packages

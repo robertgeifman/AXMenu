@@ -9,11 +9,9 @@
 /* Begin PBXBuildFile section */
 		E142F24A2B14E2C300984C8C /* ApplicationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E142F2492B14E2C300984C8C /* ApplicationData.swift */; };
 		E14336812B13CA1F0007B603 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14336802B13CA1F0007B603 /* AppDelegate.swift */; };
-		E14336872B13CA6D0007B603 /* AXEssibility in Frameworks */ = {isa = PBXBuildFile; productRef = E14336862B13CA6D0007B603 /* AXEssibility */; };
 		E16302A72B15086300702F3C /* AppList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16302A62B15086300702F3C /* AppList.swift */; };
 		E16302A92B1508B900702F3C /* AppMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16302A82B1508B900702F3C /* AppMenuView.swift */; };
 		E16302AB2B1508F000702F3C /* PermissionRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16302AA2B1508F000702F3C /* PermissionRequestView.swift */; };
-		E16302C82B151CA800702F3C /* SwiftUIAdditions in Frameworks */ = {isa = PBXBuildFile; productRef = E16302C72B151CA800702F3C /* SwiftUIAdditions */; };
 		E1B5C7482B13C9BC00F5FA04 /* AXMenuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B5C7472B13C9BC00F5FA04 /* AXMenuApp.swift */; };
 		E1B5C74A2B13C9BC00F5FA04 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B5C7492B13C9BC00F5FA04 /* ContentView.swift */; };
 		E1B5C74C2B13C9BD00F5FA04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1B5C74B2B13C9BD00F5FA04 /* Assets.xcassets */; };
@@ -22,14 +20,14 @@
 /* Begin PBXFileReference section */
 		E142F2492B14E2C300984C8C /* ApplicationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationData.swift; sourceTree = "<group>"; };
 		E14336802B13CA1F0007B603 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E14336822B13CA5E0007B603 /* AXEssibility */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AXEssibility; path = ../Packages/AXEssibility; sourceTree = "<group>"; };
-		E14336882B147F600007B603 /* FoundationAdditions */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FoundationAdditions; path = ../Packages/FoundationAdditions; sourceTree = "<group>"; };
-		E14336892B147F600007B603 /* SwiftUIAdditions */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftUIAdditions; path = ../Packages/SwiftUIAdditions; sourceTree = "<group>"; };
 		E143368A2B14823C0007B603 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E16302A62B15086300702F3C /* AppList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppList.swift; sourceTree = "<group>"; };
 		E16302A82B1508B900702F3C /* AppMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMenuView.swift; sourceTree = "<group>"; };
 		E16302AA2B1508F000702F3C /* PermissionRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionRequestView.swift; sourceTree = "<group>"; };
-		E1B5C7442B13C9BC00F5FA04 /* AXMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AXMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E16302C92B152F5A00702F3C /* AXEssibility */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AXEssibility; path = Packages/AXEssibility; sourceTree = "<group>"; };
+		E16302CA2B152F5A00702F3C /* FoundationAdditions */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FoundationAdditions; path = Packages/FoundationAdditions; sourceTree = "<group>"; };
+		E16302CB2B152F5A00702F3C /* SwiftUIAdditions */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftUIAdditions; path = Packages/SwiftUIAdditions; sourceTree = "<group>"; };
+		E1B5C7442B13C9BC00F5FA04 /* MenuScript.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MenuScript.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1B5C7472B13C9BC00F5FA04 /* AXMenuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXMenuApp.swift; sourceTree = "<group>"; };
 		E1B5C7492B13C9BC00F5FA04 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E1B5C74B2B13C9BD00F5FA04 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -41,8 +39,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E16302C82B151CA800702F3C /* SwiftUIAdditions in Frameworks */,
-				E14336872B13CA6D0007B603 /* AXEssibility in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,11 +65,11 @@
 		E1B5C73B2B13C9BC00F5FA04 = {
 			isa = PBXGroup;
 			children = (
+				E1B5C7462B13C9BC00F5FA04 /* Sources */,
+				E16302C92B152F5A00702F3C /* AXEssibility */,
+				E16302CA2B152F5A00702F3C /* FoundationAdditions */,
+				E16302CB2B152F5A00702F3C /* SwiftUIAdditions */,
 				E16302A52B15085200702F3C /* Resources */,
-				E1B5C7462B13C9BC00F5FA04 /* AXMenu */,
-				E14336822B13CA5E0007B603 /* AXEssibility */,
-				E14336882B147F600007B603 /* FoundationAdditions */,
-				E14336892B147F600007B603 /* SwiftUIAdditions */,
 				E1B5C7452B13C9BC00F5FA04 /* Products */,
 				E14336852B13CA6D0007B603 /* Frameworks */,
 			);
@@ -82,12 +78,12 @@
 		E1B5C7452B13C9BC00F5FA04 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E1B5C7442B13C9BC00F5FA04 /* AXMenu.app */,
+				E1B5C7442B13C9BC00F5FA04 /* MenuScript.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E1B5C7462B13C9BC00F5FA04 /* AXMenu */ = {
+		E1B5C7462B13C9BC00F5FA04 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				E16302AA2B1508F000702F3C /* PermissionRequestView.swift */,
@@ -98,15 +94,15 @@
 				E142F2492B14E2C300984C8C /* ApplicationData.swift */,
 				E14336802B13CA1F0007B603 /* AppDelegate.swift */,
 			);
-			path = AXMenu;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E1B5C7432B13C9BC00F5FA04 /* AXMenu */ = {
+		E1B5C7432B13C9BC00F5FA04 /* MenuScript */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E1B5C7532B13C9BD00F5FA04 /* Build configuration list for PBXNativeTarget "AXMenu" */;
+			buildConfigurationList = E1B5C7532B13C9BD00F5FA04 /* Build configuration list for PBXNativeTarget "MenuScript" */;
 			buildPhases = (
 				E1B5C7402B13C9BC00F5FA04 /* Sources */,
 				E1B5C7412B13C9BC00F5FA04 /* Frameworks */,
@@ -118,13 +114,11 @@
 				E16302C62B151CA300702F3C /* PBXTargetDependency */,
 				E14336842B13CA680007B603 /* PBXTargetDependency */,
 			);
-			name = AXMenu;
+			name = MenuScript;
 			packageProductDependencies = (
-				E14336862B13CA6D0007B603 /* AXEssibility */,
-				E16302C72B151CA800702F3C /* SwiftUIAdditions */,
 			);
 			productName = AXMenu;
-			productReference = E1B5C7442B13C9BC00F5FA04 /* AXMenu.app */;
+			productReference = E1B5C7442B13C9BC00F5FA04 /* MenuScript.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -142,7 +136,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E1B5C73F2B13C9BC00F5FA04 /* Build configuration list for PBXProject "AXMenu" */;
+			buildConfigurationList = E1B5C73F2B13C9BC00F5FA04 /* Build configuration list for PBXProject "MenuScript" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -155,7 +149,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E1B5C7432B13C9BC00F5FA04 /* AXMenu */,
+				E1B5C7432B13C9BC00F5FA04 /* MenuScript */,
 			);
 		};
 /* End PBXProject section */
@@ -377,7 +371,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E1B5C73F2B13C9BC00F5FA04 /* Build configuration list for PBXProject "AXMenu" */ = {
+		E1B5C73F2B13C9BC00F5FA04 /* Build configuration list for PBXProject "MenuScript" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1B5C7512B13C9BD00F5FA04 /* Debug */,
@@ -386,7 +380,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E1B5C7532B13C9BD00F5FA04 /* Build configuration list for PBXNativeTarget "AXMenu" */ = {
+		E1B5C7532B13C9BD00F5FA04 /* Build configuration list for PBXNativeTarget "MenuScript" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1B5C7542B13C9BD00F5FA04 /* Debug */,
@@ -402,15 +396,7 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = AXEssibility;
 		};
-		E14336862B13CA6D0007B603 /* AXEssibility */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = AXEssibility;
-		};
 		E16302C52B151CA300702F3C /* SwiftUIAdditions */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SwiftUIAdditions;
-		};
-		E16302C72B151CA800702F3C /* SwiftUIAdditions */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftUIAdditions;
 		};
