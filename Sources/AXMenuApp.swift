@@ -11,6 +11,7 @@ import SwiftUI
 struct AXMenuApp: App {
 	@NSApplicationDelegateAdaptor
 	private var appDelegate: AppDelegate
+	
     var body: some Scene {
         WindowGroup {
             ContentView()

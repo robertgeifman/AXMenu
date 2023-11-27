@@ -7,22 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E142F24A2B14E2C300984C8C /* ApplicationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E142F2492B14E2C300984C8C /* ApplicationData.swift */; };
 		E14336812B13CA1F0007B603 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14336802B13CA1F0007B603 /* AppDelegate.swift */; };
 		E14336872B13CA6D0007B603 /* AXEssibility in Frameworks */ = {isa = PBXBuildFile; productRef = E14336862B13CA6D0007B603 /* AXEssibility */; };
+		E16302A72B15086300702F3C /* AppList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16302A62B15086300702F3C /* AppList.swift */; };
+		E16302A92B1508B900702F3C /* AppMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16302A82B1508B900702F3C /* AppMenuView.swift */; };
+		E16302AB2B1508F000702F3C /* PermissionRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16302AA2B1508F000702F3C /* PermissionRequestView.swift */; };
+		E16302C82B151CA800702F3C /* SwiftUIAdditions in Frameworks */ = {isa = PBXBuildFile; productRef = E16302C72B151CA800702F3C /* SwiftUIAdditions */; };
 		E1B5C7482B13C9BC00F5FA04 /* AXMenuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B5C7472B13C9BC00F5FA04 /* AXMenuApp.swift */; };
 		E1B5C74A2B13C9BC00F5FA04 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B5C7492B13C9BC00F5FA04 /* ContentView.swift */; };
 		E1B5C74C2B13C9BD00F5FA04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1B5C74B2B13C9BD00F5FA04 /* Assets.xcassets */; };
-		E1B5C74F2B13C9BD00F5FA04 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1B5C74E2B13C9BD00F5FA04 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E142F2492B14E2C300984C8C /* ApplicationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationData.swift; sourceTree = "<group>"; };
 		E14336802B13CA1F0007B603 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E14336822B13CA5E0007B603 /* AXEssibility */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AXEssibility; path = ../Packages/AXEssibility; sourceTree = "<group>"; };
+		E14336882B147F600007B603 /* FoundationAdditions */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FoundationAdditions; path = ../Packages/FoundationAdditions; sourceTree = "<group>"; };
+		E14336892B147F600007B603 /* SwiftUIAdditions */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftUIAdditions; path = ../Packages/SwiftUIAdditions; sourceTree = "<group>"; };
+		E143368A2B14823C0007B603 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E16302A62B15086300702F3C /* AppList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppList.swift; sourceTree = "<group>"; };
+		E16302A82B1508B900702F3C /* AppMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMenuView.swift; sourceTree = "<group>"; };
+		E16302AA2B1508F000702F3C /* PermissionRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionRequestView.swift; sourceTree = "<group>"; };
 		E1B5C7442B13C9BC00F5FA04 /* AXMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AXMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1B5C7472B13C9BC00F5FA04 /* AXMenuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXMenuApp.swift; sourceTree = "<group>"; };
 		E1B5C7492B13C9BC00F5FA04 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E1B5C74B2B13C9BD00F5FA04 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E1B5C74E2B13C9BD00F5FA04 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E1B5C7502B13C9BD00F5FA04 /* AXMenu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AXMenu.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -31,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E16302C82B151CA800702F3C /* SwiftUIAdditions in Frameworks */,
 				E14336872B13CA6D0007B603 /* AXEssibility in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -45,11 +56,24 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E16302A52B15085200702F3C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E143368A2B14823C0007B603 /* Info.plist */,
+				E1B5C74B2B13C9BD00F5FA04 /* Assets.xcassets */,
+				E1B5C7502B13C9BD00F5FA04 /* AXMenu.entitlements */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		E1B5C73B2B13C9BC00F5FA04 = {
 			isa = PBXGroup;
 			children = (
+				E16302A52B15085200702F3C /* Resources */,
 				E1B5C7462B13C9BC00F5FA04 /* AXMenu */,
 				E14336822B13CA5E0007B603 /* AXEssibility */,
+				E14336882B147F600007B603 /* FoundationAdditions */,
+				E14336892B147F600007B603 /* SwiftUIAdditions */,
 				E1B5C7452B13C9BC00F5FA04 /* Products */,
 				E14336852B13CA6D0007B603 /* Frameworks */,
 			);
@@ -66,22 +90,15 @@
 		E1B5C7462B13C9BC00F5FA04 /* AXMenu */ = {
 			isa = PBXGroup;
 			children = (
-				E14336802B13CA1F0007B603 /* AppDelegate.swift */,
-				E1B5C7472B13C9BC00F5FA04 /* AXMenuApp.swift */,
+				E16302AA2B1508F000702F3C /* PermissionRequestView.swift */,
+				E16302A82B1508B900702F3C /* AppMenuView.swift */,
+				E16302A62B15086300702F3C /* AppList.swift */,
 				E1B5C7492B13C9BC00F5FA04 /* ContentView.swift */,
-				E1B5C74B2B13C9BD00F5FA04 /* Assets.xcassets */,
-				E1B5C7502B13C9BD00F5FA04 /* AXMenu.entitlements */,
-				E1B5C74D2B13C9BD00F5FA04 /* Preview Content */,
+				E1B5C7472B13C9BC00F5FA04 /* AXMenuApp.swift */,
+				E142F2492B14E2C300984C8C /* ApplicationData.swift */,
+				E14336802B13CA1F0007B603 /* AppDelegate.swift */,
 			);
 			path = AXMenu;
-			sourceTree = "<group>";
-		};
-		E1B5C74D2B13C9BD00F5FA04 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				E1B5C74E2B13C9BD00F5FA04 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -98,11 +115,13 @@
 			buildRules = (
 			);
 			dependencies = (
+				E16302C62B151CA300702F3C /* PBXTargetDependency */,
 				E14336842B13CA680007B603 /* PBXTargetDependency */,
 			);
 			name = AXMenu;
 			packageProductDependencies = (
 				E14336862B13CA6D0007B603 /* AXEssibility */,
+				E16302C72B151CA800702F3C /* SwiftUIAdditions */,
 			);
 			productName = AXMenu;
 			productReference = E1B5C7442B13C9BC00F5FA04 /* AXMenu.app */;
@@ -146,7 +165,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1B5C74F2B13C9BD00F5FA04 /* Preview Assets.xcassets in Resources */,
 				E1B5C74C2B13C9BD00F5FA04 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -159,8 +177,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E14336812B13CA1F0007B603 /* AppDelegate.swift in Sources */,
+				E16302A92B1508B900702F3C /* AppMenuView.swift in Sources */,
 				E1B5C74A2B13C9BC00F5FA04 /* ContentView.swift in Sources */,
+				E142F24A2B14E2C300984C8C /* ApplicationData.swift in Sources */,
+				E16302A72B15086300702F3C /* AppList.swift in Sources */,
 				E1B5C7482B13C9BC00F5FA04 /* AXMenuApp.swift in Sources */,
+				E16302AB2B1508F000702F3C /* PermissionRequestView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,6 +192,10 @@
 		E14336842B13CA680007B603 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = E14336832B13CA680007B603 /* AXEssibility */;
+		};
+		E16302C62B151CA300702F3C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = E16302C52B151CA300702F3C /* SwiftUIAdditions */;
 		};
 /* End PBXTargetDependency section */
 
@@ -297,16 +323,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = AXMenu/AXMenu.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Resources/AXMenu.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"AXMenu/Preview Content\"";
 				DEVELOPMENT_TEAM = HPSN4NS7JC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -325,16 +351,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = AXMenu/AXMenu.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Resources/AXMenu.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"AXMenu/Preview Content\"";
 				DEVELOPMENT_TEAM = HPSN4NS7JC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -379,6 +405,14 @@
 		E14336862B13CA6D0007B603 /* AXEssibility */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AXEssibility;
+		};
+		E16302C52B151CA300702F3C /* SwiftUIAdditions */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftUIAdditions;
+		};
+		E16302C72B151CA800702F3C /* SwiftUIAdditions */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftUIAdditions;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
