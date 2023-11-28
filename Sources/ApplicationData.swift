@@ -16,7 +16,8 @@ final class ApplicationData: ObservableObject {
 	init() {
 		applications = NSWorkspace.shared.runningApplications.filter {
 			$0.bundleIdentifier != nil
-		}
+		}.mapKeysToValues { ($0.bundleIdentifier!, $0) }.values
+		.sorted { $0.bundleIdentifier! < $1.bundleIdentifier! }
 	}
 
     @discardableResult

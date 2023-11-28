@@ -14,12 +14,12 @@ import SwiftUIAdditions
 
 // MARK: - AppView
 struct AppView: View {
-	@Binding var selectedApplication: NSRunningApplication?
+	@Binding var selectedApplication: String?
 	@State var accessibilityEnabled = ApplicationData.isAccessibilityEnabled(withPrompt: false)
 
 	var body: some View {
 		if ApplicationData.isAccessibilityEnabled(withPrompt: false) {
-			if let selectedApplication, nil != selectedApplication.bundleIdentifier {
+			if let selectedApplication {
 				MenuView(selectedApplication: selectedApplication)
 			} else {
 				NoSelectionView()

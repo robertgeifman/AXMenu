@@ -14,9 +14,9 @@ import SwiftUIAdditions
 
 // MARK: - MenuView
 struct MenuView: View {
-	let selectedApplication: NSRunningApplication
+	let selectedApplication: String
 
 	var body: some View {
-		Text(selectedApplication.bundleIdentifier!)
+		Text(selectedApplication)
 	}
 }

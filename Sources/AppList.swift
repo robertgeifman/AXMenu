@@ -12,16 +12,18 @@ import FoundationAdditions
 import SwiftUI
 import SwiftUIAdditions
 
+extension NSRunningApplication: Identifiable {
+	public var id: String { bundleIdentifier ?? typePtr }
+}
+
 // MARK: - AppList
 struct AppList: View {
 	@EnvironmentObject var data: ApplicationData
-	@Binding var selectedApplication: NSRunningApplication?
+	@Binding var selectedApplication: String?
 
 	var body: some View {
-		List(selection: $selectedApplication) {
-			ForEach(data.applications, id: \.bundleIdentifier) { app in
-				Text(app.bundleIdentifier ?? "")
-			}
+		List(data.applications, selection: $selectedApplication) { app in
+			Text(app.bundleIdentifier!).id(app.bundleIdentifier!)
 		}
 	}
 }
