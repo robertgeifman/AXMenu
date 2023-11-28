@@ -12,16 +12,11 @@ import FoundationAdditions
 import SwiftUI
 import SwiftUIAdditions
 
-// MARK: - AppList
-struct AppList: View {
-	@EnvironmentObject var data: ApplicationData
-	@Binding var selectedApplication: NSRunningApplication?
+// MARK: - MenuView
+struct MenuView: View {
+	let selectedApplication: NSRunningApplication
 
 	var body: some View {
-		List(selection: $selectedApplication) {
-			ForEach(data.applications, id: \.bundleIdentifier) { app in
-				Text(app.bundleIdentifier ?? "")
-			}
-		}
+		Text(selectedApplication.bundleIdentifier!)
 	}
 }

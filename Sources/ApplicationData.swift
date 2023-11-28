@@ -18,4 +18,11 @@ final class ApplicationData: ObservableObject {
 			$0.bundleIdentifier != nil
 		}
 	}
+
+    @discardableResult
+    static func isAccessibilityEnabled(withPrompt: Bool) -> Bool {
+        let checkOptionPromptKey = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String
+        let options = [checkOptionPromptKey: withPrompt] as CFDictionary
+        return AXIsProcessTrustedWithOptions(options)
+    }
 }
