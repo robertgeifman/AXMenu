@@ -14,9 +14,9 @@ import SwiftUIAdditions
 
 // MARK: - MenuView
 struct MenuView: View {
-	let selectedApplication: String
+	let selectedApplication: RunningApplications.Application
 
 	var body: some View {
-		Text(selectedApplication)
+		Text(selectedApplication.name)
 	}
 }

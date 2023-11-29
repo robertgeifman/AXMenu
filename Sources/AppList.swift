@@ -18,12 +18,12 @@ extension NSRunningApplication: Identifiable {
 
 // MARK: - AppList
 struct AppList: View {
-	@EnvironmentObject var data: ApplicationData
-	@Binding var selectedApplication: String?
+	@EnvironmentObject var data: RunningApplications
+	@Binding var selectedApplication: RunningApplications.Application?
 
 	var body: some View {
-		List(data.applications, selection: $selectedApplication) { app in
-			Text(app.bundleIdentifier!).id(app.bundleIdentifier!)
+		List(data.applications, id: \.id, selection: $selectedApplication) {
+			Text($0.name)
 		}
 	}
 }

@@ -16,7 +16,7 @@ import SwiftUIAdditions
 struct PermissionRequestView: View {
 	var body: some View {
 		Button {
-			ApplicationData.isAccessibilityEnabled(withPrompt: true)
+			RunningApplications.isAccessibilityEnabled(withPrompt: true)
 		} label: {
 			Text("Request Accessibility Permissions")
 		}
