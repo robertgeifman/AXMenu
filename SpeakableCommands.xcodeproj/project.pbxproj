@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E12AEF192B17C53500E4B07C /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = E12AEF182B17C53500E4B07C /* SQLite */; };
+		E12AEF1D2B17CD3500E4B07C /* MenuItemCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12AEF1C2B17CD3500E4B07C /* MenuItemCommand.swift */; };
 		E142F24A2B14E2C300984C8C /* RunningApplications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E142F2492B14E2C300984C8C /* RunningApplications.swift */; };
 		E14336812B13CA1F0007B603 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14336802B13CA1F0007B603 /* AppDelegate.swift */; };
 		E16302A72B15086300702F3C /* AppList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16302A62B15086300702F3C /* AppList.swift */; };
@@ -23,6 +25,8 @@
 
 /* Begin PBXFileReference section */
 		E12AEF162B174F1D00E4B07C /* AXMenu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AXMenu.entitlements; sourceTree = "<group>"; };
+		E12AEF172B17C51A00E4B07C /* sqlite */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = sqlite; path = Packages/sqlite; sourceTree = "<group>"; };
+		E12AEF1C2B17CD3500E4B07C /* MenuItemCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuItemCommand.swift; sourceTree = "<group>"; };
 		E142F2492B14E2C300984C8C /* RunningApplications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningApplications.swift; sourceTree = "<group>"; };
 		E14336802B13CA1F0007B603 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E143368A2B14823C0007B603 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E12AEF192B17C53500E4B07C /* SQLite in Frameworks */,
 				E18711CE2B161C2400EA4C65 /* AXEssibility in Frameworks */,
 				E18711CB2B161C1800EA4C65 /* SwiftUIAdditions in Frameworks */,
 			);
@@ -77,6 +82,7 @@
 				E16302C92B152F5A00702F3C /* AXEssibility */,
 				E16302CA2B152F5A00702F3C /* FoundationAdditions */,
 				E16302CB2B152F5A00702F3C /* SwiftUIAdditions */,
+				E12AEF172B17C51A00E4B07C /* sqlite */,
 				E16302A52B15085200702F3C /* Resources */,
 				E1B5C7452B13C9BC00F5FA04 /* Products */,
 				E14336852B13CA6D0007B603 /* Frameworks */,
@@ -102,6 +108,7 @@
 				E1B5C7492B13C9BC00F5FA04 /* ContentView.swift */,
 				E1B5C7472B13C9BC00F5FA04 /* AXMenuApp.swift */,
 				E142F2492B14E2C300984C8C /* RunningApplications.swift */,
+				E12AEF1C2B17CD3500E4B07C /* MenuItemCommand.swift */,
 				E14336802B13CA1F0007B603 /* AppDelegate.swift */,
 			);
 			path = Sources;
@@ -121,6 +128,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				E12AEF1B2B17C54300E4B07C /* PBXTargetDependency */,
 				E16302C62B151CA300702F3C /* PBXTargetDependency */,
 				E14336842B13CA680007B603 /* PBXTargetDependency */,
 			);
@@ -128,6 +136,7 @@
 			packageProductDependencies = (
 				E18711CA2B161C1800EA4C65 /* SwiftUIAdditions */,
 				E18711CD2B161C2400EA4C65 /* AXEssibility */,
+				E12AEF182B17C53500E4B07C /* SQLite */,
 			);
 			productName = AXMenu;
 			productReference = E1B5C7442B13C9BC00F5FA04 /* SpeakableCommands.app */;
@@ -195,12 +204,17 @@
 				E16302A72B15086300702F3C /* AppList.swift in Sources */,
 				E1B5C7482B13C9BC00F5FA04 /* AXMenuApp.swift in Sources */,
 				E16302AB2B1508F000702F3C /* PermissionRequestView.swift in Sources */,
+				E12AEF1D2B17CD3500E4B07C /* MenuItemCommand.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		E12AEF1B2B17C54300E4B07C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = E12AEF1A2B17C54300E4B07C /* SQLite */;
+		};
 		E14336842B13CA680007B603 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = E14336832B13CA680007B603 /* AXEssibility */;
@@ -421,6 +435,14 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E12AEF182B17C53500E4B07C /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SQLite;
+		};
+		E12AEF1A2B17C54300E4B07C /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SQLite;
+		};
 		E14336832B13CA680007B603 /* AXEssibility */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AXEssibility;
