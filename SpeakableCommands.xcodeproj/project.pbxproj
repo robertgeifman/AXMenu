@@ -124,6 +124,7 @@
 				E1B5C7402B13C9BC00F5FA04 /* Sources */,
 				E1B5C7412B13C9BC00F5FA04 /* Frameworks */,
 				E1B5C7422B13C9BC00F5FA04 /* Resources */,
+				E12AEF1E2B17D05000E4B07C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -189,6 +190,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E12AEF1E2B17D05000E4B07C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n# sudo sqlite3 /Library/Application\\ Support/com.apple.TCC/TCC.db \"DELETE FROM access WHERE client == 'com.robertgeifman.SpeakableCommands';\"\n \n# sqlite3 /Library/Application\\ Support/com.apple.TCC/TCC.db \"INSERT or REPLACE INTO access values ('kTCCServiceAccessibility', 'com.robertgeifman.SpeakableCommands', 0, 1, 0, NULL);\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E1B5C7402B13C9BC00F5FA04 /* Sources */ = {

@@ -14,11 +14,11 @@ import SwiftUIAdditions
 
 // MARK: - AppView
 struct AppView: View {
-	@State var accessibilityEnabled = RunningApplications.isAccessibilityEnabled(withPrompt: false)
+	@State var accessibilityEnabled = AXIsProcessTrusted()
 	@Binding var selectedApplication: RunningApplications.Application?
 
 	var body: some View {
-		if RunningApplications.isAccessibilityEnabled(withPrompt: false) {
+		if accessibilityEnabled {
 			if let selectedApplication {
 				MenuView(selectedApplication: selectedApplication)
 			} else {
@@ -27,7 +27,7 @@ struct AppView: View {
 		} else {
 			PermissionRequestView()
 				.onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
-					accessibilityEnabled = RunningApplications.isAccessibilityEnabled(withPrompt: false)
+					accessibilityEnabled = AXIsProcessTrusted()
 				}
 		}
 	}

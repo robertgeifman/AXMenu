@@ -23,7 +23,7 @@ struct AppList: View {
 
 	var body: some View {
 		List(data.applications, id: \.id, selection: $selectedApplication) {
-			Text($0.name)
+			Text($0.name).tag($0)
 		}
 	}
 }

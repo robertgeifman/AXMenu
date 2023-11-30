@@ -38,8 +38,8 @@ final class RunningApplications: ObservableObject {
 extension RunningApplications.Application {
 	init?(_ application: NSRunningApplication) {
 		guard let identifier = application.bundleIdentifier,
-					let url = application.bundleURL,
-					let bundle = Bundle(url: url) else { return nil }
+			let url = application.bundleURL,
+			let bundle = Bundle(url: url) else { return nil }
 
 		let plist = bundle.infoDictionary ?? [:]
 		if let value = plist["LSBackgroundOnly"] as? Bool, value == true { return nil }

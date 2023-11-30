@@ -15,8 +15,29 @@ import SwiftUIAdditions
 // MARK: - MenuView
 struct MenuView: View {
 	let selectedApplication: RunningApplications.Application
+	@State var menuCommands: [MenuItemCommand]
+	@State var selection: MenuItemCommand?
 
 	var body: some View {
-		Text(selectedApplication.name)
+		List(selection: $selection) {
+			ForEach($menuCommands, id: \.id) { command in
+				VStack {
+					HStack {
+						Toggle(isOn: command.isSelected) {}
+						.toggleStyle(.checkbox)
+						Text(command.title.wrappedValue)
+					}
+					if !command.path.isEmpty {
+						Text(command.path.wrappedValue.map(\.title).joined(separator: "->"))
+					}
+				}
+				.tag(command.wrappedValue)
+			}
+		}
+	}
+
+	init(selectedApplication: RunningApplications.Application) {
+		self.selectedApplication = selectedApplication
+		_menuCommands = .init(wrappedValue: MenuItemCommand.commands(for: selectedApplication))
 	}
 }
