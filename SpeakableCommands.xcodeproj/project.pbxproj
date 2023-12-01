@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		E12AEF192B17C53500E4B07C /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = E12AEF182B17C53500E4B07C /* SQLite */; };
-		E12AEF1D2B17CD3500E4B07C /* MenuItemCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12AEF1C2B17CD3500E4B07C /* MenuItemCommand.swift */; };
+		E12AEF1D2B17CD3500E4B07C /* MenuCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12AEF1C2B17CD3500E4B07C /* MenuCommand.swift */; };
+		E12AEF272B190E3D00E4B07C /* AXMenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12AEF262B190E3D00E4B07C /* AXMenuBar.swift */; };
+		E12AEF292B190FC400E4B07C /* MenuGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12AEF282B190FC400E4B07C /* MenuGroup.swift */; };
 		E142F24A2B14E2C300984C8C /* RunningApplications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E142F2492B14E2C300984C8C /* RunningApplications.swift */; };
 		E14336812B13CA1F0007B603 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14336802B13CA1F0007B603 /* AppDelegate.swift */; };
 		E16302A72B15086300702F3C /* AppList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16302A62B15086300702F3C /* AppList.swift */; };
@@ -18,7 +20,8 @@
 		E169CE3F2B15C9D700B91C1F /* NoSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E169CE3E2B15C9D700B91C1F /* NoSelectionView.swift */; };
 		E18711CB2B161C1800EA4C65 /* SwiftUIAdditions in Frameworks */ = {isa = PBXBuildFile; productRef = E18711CA2B161C1800EA4C65 /* SwiftUIAdditions */; };
 		E18711CE2B161C2400EA4C65 /* AXEssibility in Frameworks */ = {isa = PBXBuildFile; productRef = E18711CD2B161C2400EA4C65 /* AXEssibility */; };
-		E1B5C7482B13C9BC00F5FA04 /* AXMenuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B5C7472B13C9BC00F5FA04 /* AXMenuApp.swift */; };
+		E19E4C272B19D20E00BD5CFD /* MenuItemPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19E4C262B19D20E00BD5CFD /* MenuItemPath.swift */; };
+		E1B5C7482B13C9BC00F5FA04 /* SpeakableCommandsApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B5C7472B13C9BC00F5FA04 /* SpeakableCommandsApplication.swift */; };
 		E1B5C74A2B13C9BC00F5FA04 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B5C7492B13C9BC00F5FA04 /* ContentView.swift */; };
 		E1B5C74C2B13C9BD00F5FA04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1B5C74B2B13C9BD00F5FA04 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -26,7 +29,9 @@
 /* Begin PBXFileReference section */
 		E12AEF162B174F1D00E4B07C /* AXMenu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AXMenu.entitlements; sourceTree = "<group>"; };
 		E12AEF172B17C51A00E4B07C /* sqlite */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = sqlite; path = Packages/sqlite; sourceTree = "<group>"; };
-		E12AEF1C2B17CD3500E4B07C /* MenuItemCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuItemCommand.swift; sourceTree = "<group>"; };
+		E12AEF1C2B17CD3500E4B07C /* MenuCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuCommand.swift; sourceTree = "<group>"; };
+		E12AEF262B190E3D00E4B07C /* AXMenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXMenuBar.swift; sourceTree = "<group>"; };
+		E12AEF282B190FC400E4B07C /* MenuGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuGroup.swift; sourceTree = "<group>"; };
 		E142F2492B14E2C300984C8C /* RunningApplications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningApplications.swift; sourceTree = "<group>"; };
 		E14336802B13CA1F0007B603 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E143368A2B14823C0007B603 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -38,8 +43,9 @@
 		E16302CB2B152F5A00702F3C /* SwiftUIAdditions */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftUIAdditions; path = Packages/SwiftUIAdditions; sourceTree = "<group>"; };
 		E169CE3C2B15C97800B91C1F /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		E169CE3E2B15C9D700B91C1F /* NoSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoSelectionView.swift; sourceTree = "<group>"; };
+		E19E4C262B19D20E00BD5CFD /* MenuItemPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuItemPath.swift; sourceTree = "<group>"; };
 		E1B5C7442B13C9BC00F5FA04 /* SpeakableCommands.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpeakableCommands.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E1B5C7472B13C9BC00F5FA04 /* AXMenuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXMenuApp.swift; sourceTree = "<group>"; };
+		E1B5C7472B13C9BC00F5FA04 /* SpeakableCommandsApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakableCommandsApplication.swift; sourceTree = "<group>"; };
 		E1B5C7492B13C9BC00F5FA04 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E1B5C74B2B13C9BD00F5FA04 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,9 +112,12 @@
 				E16302A82B1508B900702F3C /* AppView.swift */,
 				E16302A62B15086300702F3C /* AppList.swift */,
 				E1B5C7492B13C9BC00F5FA04 /* ContentView.swift */,
-				E1B5C7472B13C9BC00F5FA04 /* AXMenuApp.swift */,
+				E1B5C7472B13C9BC00F5FA04 /* SpeakableCommandsApplication.swift */,
 				E142F2492B14E2C300984C8C /* RunningApplications.swift */,
-				E12AEF1C2B17CD3500E4B07C /* MenuItemCommand.swift */,
+				E12AEF1C2B17CD3500E4B07C /* MenuCommand.swift */,
+				E12AEF282B190FC400E4B07C /* MenuGroup.swift */,
+				E19E4C262B19D20E00BD5CFD /* MenuItemPath.swift */,
+				E12AEF262B190E3D00E4B07C /* AXMenuBar.swift */,
 				E14336802B13CA1F0007B603 /* AppDelegate.swift */,
 			);
 			path = Sources;
@@ -220,12 +229,15 @@
 				E169CE3F2B15C9D700B91C1F /* NoSelectionView.swift in Sources */,
 				E169CE3D2B15C97800B91C1F /* MenuView.swift in Sources */,
 				E16302A92B1508B900702F3C /* AppView.swift in Sources */,
+				E12AEF292B190FC400E4B07C /* MenuGroup.swift in Sources */,
+				E19E4C272B19D20E00BD5CFD /* MenuItemPath.swift in Sources */,
 				E1B5C74A2B13C9BC00F5FA04 /* ContentView.swift in Sources */,
 				E142F24A2B14E2C300984C8C /* RunningApplications.swift in Sources */,
 				E16302A72B15086300702F3C /* AppList.swift in Sources */,
-				E1B5C7482B13C9BC00F5FA04 /* AXMenuApp.swift in Sources */,
+				E1B5C7482B13C9BC00F5FA04 /* SpeakableCommandsApplication.swift in Sources */,
 				E16302AB2B1508F000702F3C /* PermissionRequestView.swift in Sources */,
-				E12AEF1D2B17CD3500E4B07C /* MenuItemCommand.swift in Sources */,
+				E12AEF1D2B17CD3500E4B07C /* MenuCommand.swift in Sources */,
+				E12AEF272B190E3D00E4B07C /* AXMenuBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

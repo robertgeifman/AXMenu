@@ -11,33 +11,44 @@ import Foundation
 import FoundationAdditions
 import SwiftUI
 import SwiftUIAdditions
+import AXEssibility
 
 // MARK: - MenuView
 struct MenuView: View {
 	let selectedApplication: RunningApplications.Application
-	@State var menuCommands: [MenuItemCommand]
-	@State var selection: MenuItemCommand?
+	@State var menuGroups: [MenuGroup]
+	@State var selection: MenuCommand?
 
 	var body: some View {
 		List(selection: $selection) {
-			ForEach($menuCommands, id: \.id) { command in
-				VStack {
-					HStack {
-						Toggle(isOn: command.isSelected) {}
-						.toggleStyle(.checkbox)
-						Text(command.title.wrappedValue)
+			ForEach($menuGroups, id: \.title) { group in
+				DisclosureGroup {
+					ForEach(group.items, id: \.id) { item in
+						VStack {
+							HStack {
+								Toggle(isOn: item.isSelected) {}
+								.toggleStyle(.checkbox)
+								Text(item.title.wrappedValue)
+							}
+							if !item.path.wrappedValue.isEmpty {
+								Text(item.path.wrappedValue.map(\.title).joined(separator: "->"))
+							}
+						}
+						.tag(item.wrappedValue)
 					}
-					if !command.path.isEmpty {
-						Text(command.path.wrappedValue.map(\.title).joined(separator: "->"))
+				} label: {
+					HStack {
+						Toggle(isOn: group.isSelected) {}
+						.toggleStyle(.checkbox)
+						Text(group.title.wrappedValue)
 					}
 				}
-				.tag(command.wrappedValue)
 			}
 		}
 	}
 
 	init(selectedApplication: RunningApplications.Application) {
 		self.selectedApplication = selectedApplication
-		_menuCommands = .init(wrappedValue: MenuItemCommand.commands(for: selectedApplication))
+		_menuGroups = .init(wrappedValue: AXMenuBar.menuBar(for: selectedApplication))
 	}
 }
