@@ -29,7 +29,9 @@ extension AXMenuBar {
 		var groups: [MenuItemPath: MenuGroup] = [[]: MenuGroup(path: [], index: 1, title: "")]
 		do {
 			for (index, menuItem) in try application.menuBar.menuItems.enumerated() {
-				guard let title = menuItem.title, !title.isEmpty else { continue }
+				guard let title = menuItem.title, !title.isEmpty else {
+					continue
+				}
 				if !menuItem.isSubMenu {
 					let command = MenuCommand(path: [], index: index, title: title)
 					if let group = groups[[]] {
@@ -41,11 +43,15 @@ extension AXMenuBar {
 				}
 
 				try menuItem.forEach(path: [.init(index: index, title: title)], index: index) { path, pathString, index, child in
-					guard let title = child.title, !title.isEmpty else { return }
+					guard let title = child.title, !title.isEmpty else {
+						return
+					}
 					let command = MenuCommand(path: path, index: index, title: title)
 					if let group = groups[path] {
+						print("-", path.pathString, ":", command.title)
 						groups[path] = group.appending(command)
 					} else {
+						print("+", path.pathString, ":", command.title)
 						groupsOrder.append(path)
 						groups[path] = MenuGroup(path: path, index: index, title: pathString, items: [command])
 					}
@@ -68,16 +74,17 @@ extension AXMenuBar {
 // MARK: - AXMenuItem
 extension AXMenuItem {
 	func forEach(path: MenuItemPath = [], index: Int, _ body: (MenuItemPath, String, Int, AXMenuItem) throws -> Void) throws {
-		guard let title, !title.isEmpty else { return }
-		guard isSubMenu else {
-			let pathString = path.map(\.title).joined(separator: "->")
-			return try body(path, pathString, index, self)
-		}
-
-		let path = path.appending(.init(index: index, title: title))
-		let pathString = path.map(\.title).joined(separator: "->")
 		for (position, item) in try menuItems.enumerated() {
-			try item.forEach(path: path, index: position, body)
+			if item.isSubMenu {
+				if let title = item.title, !title.isEmpty {
+					let path = path.appending(.init(index: position, title: title))
+					try item.forEach(path: path, index: position, body)
+				} else {
+					try item.forEach(path: path, index: position, body)
+				}
+			} else {
+				try body(path, path.pathString, position, item)
+			}
 		}
 	}
 }

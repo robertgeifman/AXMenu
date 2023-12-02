@@ -22,17 +22,15 @@ struct MenuItemPath: Hashable {
 	}
 
 	@Property var elements: [Element]
-
+	var pathString: String {
+		map(\.title).joined(separator: "->")
+	}
 	init(_ elements: [Element] = []) {
 		self.elements = elements
 	}
 
 	func hash(into hasher: inout Hasher) {
-		if isEmpty {
-			"MenuBar".hash(into: &hasher)
-		} else {
-			elements.hash(into: &hasher)
-		}
+		elements.hash(into: &hasher)
 	}
 }
 

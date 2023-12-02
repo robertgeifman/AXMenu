@@ -21,9 +21,9 @@ struct MenuCommand: Hashable, DeferredDecodableContainer, Encodable {
 	@Property var index: Int
 	@Property var title: String
 
-	@Property var shortcut: String?
+//	@Property var shortcut: String?
 	@Property var isSelected: Bool = true
-	@Property var command: String?
+//	@Property var command: String?
 	@Property var mode: Mode = .none
 
 	init(path: MenuItemPath, index: Int, title: String) {
