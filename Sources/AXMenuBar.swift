@@ -24,20 +24,20 @@ extension AXMenuBar {
 		}
 
 		let application = AXApplication(runningApplication.pid)
-
+		let app = runningApplication.name
 		var groupsOrder: [String] = []
-		var groups: [String: MenuGroup] = ["": MenuGroup(path: [], index: 1, title: "")]
+		var groups: [String: MenuGroup] = ["": MenuGroup(app: app, path: [], index: 1, title: "")]
 		do {
 			for (index, menuItem) in try application.menuBar.menuItems.enumerated() {
 				guard let title = menuItem.title, !title.isEmpty else {
 					continue
 				}
 				if !menuItem.isSubMenu {
-					let command = MenuCommand(path: [], index: index, title: title)
+					let command = MenuCommand(app: app, path: [], index: index, title: title)
 					if let group = groups[""] {
 						groups[""] = group.appending(command)
 					} else {
-						groups[""] = MenuGroup(path: [], index: index, title: "", items: [command])
+						groups[""] = MenuGroup(app: app, path: [], index: index, title: "", items: [command])
 					}
 					continue
 				}
@@ -46,18 +46,29 @@ extension AXMenuBar {
 					guard let title = child.title, !title.isEmpty else {
 						return
 					}
-					let command = MenuCommand(path: path, index: index, title: title)
+					let command = MenuCommand(app: app, path: path, index: index, title: title)
+					if let value = try? child.menuItemCmdVirtualKey, var shortcut = AXMenuItem.stringForKey(value) {
+						if let modifiers = try? child.menuItemCmdModifiers, let string = AXMenuItem.stringForModifiers(modifiers) {
+							shortcut = string + " " + shortcut
+						}
+						command.shortcut = shortcut
+					} else if var shortcut = try? child.menuItemCmdChar {
+						if let modifiers = try? child.menuItemCmdModifiers, let string = AXMenuItem.stringForModifiers(modifiers) {
+							shortcut = string + " " + shortcut
+						}
+						command.shortcut = shortcut
+					}
 					let pathString = path.pathString
 					if let group = groups[pathString] {
 						groups[pathString] = group.appending(command)
 					} else {
 						groupsOrder.append(pathString)
-						groups[pathString] = MenuGroup(path: path, index: index, title: pathString, items: [command])
+						groups[pathString] = MenuGroup(app: app, path: path, index: index, title: pathString, items: [command])
 					}
 				} onGroup: { path, title, index in
 					let pathString = path.pathString
 					groupsOrder.append(pathString)
-					groups[pathString] = MenuGroup(path: path, index: index, title: pathString, items: [])
+					groups[pathString] = MenuGroup(app: app, path: path, index: index, title: pathString, items: [])
 				}
 			}
 		} catch {
@@ -226,8 +237,19 @@ extension AXMenuItem {
 		default: "(\(key))"
 		}
 	}
+	// modifier	 mask bits (⌘ is assumed): 1 = ⇧, 2 = ⌥, 4 = ⌃, 8 = no ⌘, 16 = fn
+	static func stringForModifiers(_ modifiers: UInt) -> String? {
+		if modifiers == 8 { return nil }
 
-	static func stringForModifiers(_ modifiers: UInt) -> String {
+		var strings = [String]()
+		if modifiers & 16 == 16 { strings.append("􀆪") }
+		if modifiers & 4 == 4 { strings.append("⌃") }
+		if modifiers & 2 == 2 { strings.append("⌥") }
+		if modifiers & 1 == 1 { strings.append("⇧") }
+		if modifiers & 8 == 0 { strings.append("⌘") }
+		return strings.isEmpty ? nil : strings.joined(separator: "")
+	}
+	static func stringForEventModifiers(_ modifiers: UInt) -> String? {
 		let flags = NSEvent.ModifierFlags(rawValue: modifiers)
 		var strings = [String]()
 		if flags.contains(.command) { strings.append("Cmd") }

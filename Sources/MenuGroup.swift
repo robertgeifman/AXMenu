@@ -14,14 +14,15 @@ import SwiftUIAdditions
 
 // MARK: - MenuGroup
 struct MenuGroup: Hashable, DeferredDecodableContainer, Encodable {
-	@Property var id: UUID = .init()
+	@Property var id: String
 	@Property var path: MenuItemPath
 	@Property var index: Int
 	@Property var title: String
 	@Property var isSelected: Bool = true
 	@Property var items: [MenuCommand]
 
-	init(path: MenuItemPath, index: Int, title: String, items: [MenuCommand] = []) {
+	init(app: String, path: MenuItemPath, index: Int, title: String, items: [MenuCommand] = []) {
+		self.id = app + ":" + path.pathString + ":" + title + "\(index)"
 		self.path = path
 		self.index = index
 		self.title = title

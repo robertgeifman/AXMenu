@@ -24,13 +24,17 @@ struct MenuView: View {
 			ForEach($menuGroups, id: \.title) { group in
 				DisclosureGroup {
 					ForEach(group.items, id: \.id) { item in
-						VStack(alignment: .leading) {
-							HStack(alignment: .top) {
-								Toggle(isOn: item.isSelected) {}
-								.toggleStyle(.checkbox)
-								Text(item.title.wrappedValue)
+						HStack(alignment: .top) {
+							Toggle(isOn: item.isSelected) {}
+							.toggleStyle(.checkbox)
+							Text(item.title.wrappedValue)
+							.frame(maxWidth: .infinity, alignment: .leading)
+							if let shortcut = item.shortcut.wrappedValue {
+								Text(shortcut)
+								.frame(width: 100, alignment: .trailing)
 							}
 						}
+						.frame(maxWidth: .infinity, alignment: .leading)
 						.tag(item.wrappedValue)
 					}
 				} label: {

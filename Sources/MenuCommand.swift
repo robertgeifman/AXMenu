@@ -16,20 +16,25 @@ struct MenuCommand: Hashable, DeferredDecodableContainer, Encodable {
 	enum Mode: Int, Hashable, Codable {
 		case none, shortcut, script, menu
 	}
-	@Property var id: UUID = .init()
+	@Property var id: String
 	@Property var path: MenuItemPath
 	@Property var index: Int
 	@Property var title: String
 
-//	@Property var shortcut: String?
+	@Property var shortcut: String? = nil
 	@Property var isSelected: Bool = true
-//	@Property var command: String?
+	@Property var command: String? = nil
 	@Property var mode: Mode = .none
 
-	init(path: MenuItemPath, index: Int, title: String) {
+	init(app: String, path: MenuItemPath, index: Int, title: String) {
+		self.id = app + ":" + path.pathString + ":" + title + "\(index)"
 		self.path = path
 		self.index = index
 		self.title = title
 	}
 	init(_: DeferredDecoder) {}
+
+	func hash(into hasher: inout Hasher) {
+		id.hash(into: &hasher)
+	}
 }
