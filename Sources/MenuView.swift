@@ -15,8 +15,8 @@ import AXEssibility
 
 // MARK: - MenuView
 struct MenuView: View {
-	let selectedApplication: RunningApplications.Application
-	@State var menuGroups: [MenuGroup]
+	@Binding var selectedApplication: RunningApplications.Application
+	@State var menuGroups: [MenuGroup] = []
 	@State var selection: MenuCommand?
 
 	var body: some View {
@@ -24,15 +24,15 @@ struct MenuView: View {
 			ForEach($menuGroups, id: \.title) { group in
 				DisclosureGroup {
 					ForEach(group.items, id: \.id) { item in
-						VStack {
-							HStack {
+						VStack(alignment: .leading) {
+							HStack(alignment: .top) {
 								Toggle(isOn: item.isSelected) {}
 								.toggleStyle(.checkbox)
 								Text(item.title.wrappedValue)
 							}
-							if !item.path.wrappedValue.isEmpty {
-								Text(item.path.wrappedValue.map(\.title).joined(separator: "->"))
-							}
+//							if !item.path.wrappedValue.isEmpty {
+//								Text(item.path.wrappedValue.map(\.title).joined(separator: "->"))
+//							}
 						}
 						.tag(item.wrappedValue)
 					}
@@ -45,10 +45,11 @@ struct MenuView: View {
 				}
 			}
 		}
-	}
-
-	init(selectedApplication: RunningApplications.Application) {
-		self.selectedApplication = selectedApplication
-		_menuGroups = .init(wrappedValue: AXMenuBar.menuBar(for: selectedApplication))
+		.onAppear {
+			menuGroups = AXMenuBar.menuBar(for: selectedApplication)
+		}
+		.onChange(of: selectedApplication) {
+			menuGroups = AXMenuBar.menuBar(for: $0)
+		}
 	}
 }

@@ -107,13 +107,13 @@
 			isa = PBXGroup;
 			children = (
 				E16302AA2B1508F000702F3C /* PermissionRequestView.swift */,
-				E169CE3C2B15C97800B91C1F /* MenuView.swift */,
 				E169CE3E2B15C9D700B91C1F /* NoSelectionView.swift */,
 				E16302A82B1508B900702F3C /* AppView.swift */,
 				E16302A62B15086300702F3C /* AppList.swift */,
 				E1B5C7492B13C9BC00F5FA04 /* ContentView.swift */,
 				E1B5C7472B13C9BC00F5FA04 /* SpeakableCommandsApplication.swift */,
 				E142F2492B14E2C300984C8C /* RunningApplications.swift */,
+				E169CE3C2B15C97800B91C1F /* MenuView.swift */,
 				E12AEF1C2B17CD3500E4B07C /* MenuCommand.swift */,
 				E12AEF282B190FC400E4B07C /* MenuGroup.swift */,
 				E19E4C262B19D20E00BD5CFD /* MenuItemPath.swift */,

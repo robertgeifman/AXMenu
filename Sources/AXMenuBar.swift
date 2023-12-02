@@ -25,8 +25,8 @@ extension AXMenuBar {
 
 		let application = AXApplication(runningApplication.pid)
 
-		var groupsOrder: [MenuItemPath] = []
-		var groups: [MenuItemPath: MenuGroup] = [[]: MenuGroup(path: [], index: 1, title: "")]
+		var groupsOrder: [String] = []
+		var groups: [String: MenuGroup] = ["": MenuGroup(path: [], index: 1, title: "")]
 		do {
 			for (index, menuItem) in try application.menuBar.menuItems.enumerated() {
 				guard let title = menuItem.title, !title.isEmpty else {
@@ -34,10 +34,10 @@ extension AXMenuBar {
 				}
 				if !menuItem.isSubMenu {
 					let command = MenuCommand(path: [], index: index, title: title)
-					if let group = groups[[]] {
-						groups[[]] = group.appending(command)
+					if let group = groups[""] {
+						groups[""] = group.appending(command)
 					} else {
-						groups[[]] = MenuGroup(path: [], index: index, title: "", items: [command])
+						groups[""] = MenuGroup(path: [], index: index, title: "", items: [command])
 					}
 					continue
 				}
@@ -47,13 +47,12 @@ extension AXMenuBar {
 						return
 					}
 					let command = MenuCommand(path: path, index: index, title: title)
-					if let group = groups[path] {
-						print("-", path.pathString, ":", command.title)
-						groups[path] = group.appending(command)
+					let pathString = path.pathString
+					if let group = groups[pathString] {
+						groups[pathString] = group.appending(command)
 					} else {
-						print("+", path.pathString, ":", command.title)
-						groupsOrder.append(path)
-						groups[path] = MenuGroup(path: path, index: index, title: pathString, items: [command])
+						groupsOrder.append(pathString)
+						groups[pathString] = MenuGroup(path: path, index: index, title: pathString, items: [command])
 					}
 				}
 			}
@@ -62,8 +61,8 @@ extension AXMenuBar {
 			return []
 		}
 
-		let result = groupsOrder.compactMap { path -> MenuGroup? in
-			guard let group = groups[path], !group.isEmpty else { return nil }
+		let result = groupsOrder.compactMap { pathString -> MenuGroup? in
+			guard let group = groups[pathString], !group.isEmpty else { return nil }
 			return group
 		}
 		Self.cache[runningApplication.id] = result

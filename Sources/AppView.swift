@@ -19,8 +19,8 @@ struct AppView: View {
 
 	var body: some View {
 		if accessibilityEnabled {
-			if let selectedApplication {
-				MenuView(selectedApplication: selectedApplication)
+			if let binding =  Binding<RunningApplications.Application>($selectedApplication) {
+				MenuView(selectedApplication: binding)
 			} else {
 				NoSelectionView()
 			}
