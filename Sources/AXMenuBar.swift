@@ -18,7 +18,7 @@ import AXEssibility
 extension AXMenuBar {
 	static var cache: [String: [MenuGroup]] = [:]
 
-	static func menuBar(for runningApplication: RunningApplications.Application) -> [MenuGroup] {
+	static func menuBar(for runningApplication: RunningApplication) -> [MenuGroup] {
 //		if let commands = cache[runningApplication.id] {
 //			return commands
 //		}

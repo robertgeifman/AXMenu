@@ -16,9 +16,16 @@ import SwiftUIAdditions
 struct PermissionRequestView: View {
 	var body: some View {
 		Button {
-			RunningApplications.isAccessibilityEnabled(withPrompt: true)
+			isAccessibilityEnabled(withPrompt: true)
 		} label: {
 			Text("Request Accessibility Permissions")
 		}
+	}
+
+	@discardableResult
+	func isAccessibilityEnabled(withPrompt: Bool) -> Bool {
+		let checkOptionPromptKey = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String
+		let options = [checkOptionPromptKey: withPrompt] as CFDictionary
+		return AXIsProcessTrustedWithOptions(options)
 	}
 }

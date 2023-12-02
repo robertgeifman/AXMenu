@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
 	@StateObject var data = RunningApplications()
 	@State var sidebarSplitItem: NSSplitViewItem?
-	@State var selectedApplication: RunningApplications.Application?
+	@State var selectedApplication: RunningApplication?
 
 	var body: some View {
 		NavigationView {

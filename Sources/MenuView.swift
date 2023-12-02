@@ -15,7 +15,7 @@ import AXEssibility
 
 // MARK: - MenuView
 struct MenuView: View {
-	@Binding var selectedApplication: RunningApplications.Application
+	@Binding var selectedApplication: RunningApplication
 	@State var menuGroups: [MenuGroup] = []
 	@State var selection: MenuCommand?
 

@@ -12,18 +12,20 @@ import FoundationAdditions
 import SwiftUI
 import SwiftUIAdditions
 
-extension NSRunningApplication: Identifiable {
-	public var id: String { bundleIdentifier ?? typePtr }
-}
-
 // MARK: - AppList
 struct AppList: View {
 	@EnvironmentObject var data: RunningApplications
-	@Binding var selectedApplication: RunningApplications.Application?
+	@Binding var selectedApplication: RunningApplication?
 
 	var body: some View {
-		List(data.applications, id: \.id, selection: $selectedApplication) {
-			Text($0.name).tag($0)
+		List($data.applications, id: \.id, selection: $selectedApplication) {
+			Text($0.wrappedValue.name).tag($0.wrappedValue)
+		}
+		.onReceive(NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didLaunchApplicationNotification)) { _ in
+			data.reload()
+		}
+		.onReceive(NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didTerminateApplicationNotification)) { _ in
+			data.reload()
 		}
 	}
 }

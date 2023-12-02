@@ -13,29 +13,27 @@ import SQLite
 
 // MARK: - RunningApplications
 final class RunningApplications: ObservableObject {
-	struct Application: Hashable {
-		let id: String
-		let name: String
-		let pid: pid_t
-	}
-	@Published var applications: [Application]
+	@Published var applications: [RunningApplication]
 
 	init() {
 		applications = NSWorkspace.shared.runningApplications
-			.compactMap(Application.init)
+			.compactMap(RunningApplication.init)
 			.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
 	}
 
-	@discardableResult
-	static func isAccessibilityEnabled(withPrompt: Bool) -> Bool {
-		let checkOptionPromptKey = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String
-		let options = [checkOptionPromptKey: withPrompt] as CFDictionary
-		return AXIsProcessTrustedWithOptions(options)
+	func reload() {
+		applications = NSWorkspace.shared.runningApplications
+			.compactMap(RunningApplication.init)
+			.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
 	}
 }
 
-// MARK: - RunningApplications.Application
-extension RunningApplications.Application {
+// MARK: - RunningApplication
+struct RunningApplication: Hashable {
+	let id: String
+	let name: String
+	let pid: pid_t
+
 	init?(_ application: NSRunningApplication) {
 		guard let identifier = application.bundleIdentifier,
 			let url = application.bundleURL,
