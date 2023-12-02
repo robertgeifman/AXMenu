@@ -30,9 +30,6 @@ struct MenuView: View {
 								.toggleStyle(.checkbox)
 								Text(item.title.wrappedValue)
 							}
-//							if !item.path.wrappedValue.isEmpty {
-//								Text(item.path.wrappedValue.map(\.title).joined(separator: "->"))
-//							}
 						}
 						.tag(item.wrappedValue)
 					}

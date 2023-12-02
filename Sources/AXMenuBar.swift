@@ -19,9 +19,9 @@ extension AXMenuBar {
 	static var cache: [String: [MenuGroup]] = [:]
 
 	static func menuBar(for runningApplication: RunningApplication) -> [MenuGroup] {
-//		if let commands = cache[runningApplication.id] {
-//			return commands
-//		}
+		if let commands = cache[runningApplication.id] {
+			return commands
+		}
 
 		let application = AXApplication(runningApplication.pid)
 
@@ -54,6 +54,10 @@ extension AXMenuBar {
 						groupsOrder.append(pathString)
 						groups[pathString] = MenuGroup(path: path, index: index, title: pathString, items: [command])
 					}
+				} onGroup: { path, title, index in
+					let pathString = path.pathString
+					groupsOrder.append(pathString)
+					groups[pathString] = MenuGroup(path: path, index: index, title: pathString, items: [])
 				}
 			}
 		} catch {
@@ -72,17 +76,22 @@ extension AXMenuBar {
 
 // MARK: - AXMenuItem
 extension AXMenuItem {
-	func forEach(path: MenuItemPath = [], index: Int, _ body: (MenuItemPath, String, Int, AXMenuItem) throws -> Void) throws {
+	func forEach(path: MenuItemPath = [], index: Int,
+		onItem: (MenuItemPath, String, Int, AXMenuItem) throws -> Void,
+		onGroup: (MenuItemPath, String, Int) throws -> Void) throws {
+		if isSubMenu, let title, !title.isEmpty {
+			try onGroup(path, title, index)
+		}
 		for (position, item) in try menuItems.enumerated() {
 			if item.isSubMenu {
 				if let title = item.title, !title.isEmpty {
 					let path = path.appending(.init(index: position, title: title))
-					try item.forEach(path: path, index: position, body)
+					try item.forEach(path: path, index: position, onItem: onItem, onGroup: onGroup)
 				} else {
-					try item.forEach(path: path, index: position, body)
+					try item.forEach(path: path, index: position, onItem: onItem, onGroup: onGroup)
 				}
 			} else {
-				try body(path, path.pathString, position, item)
+				try onItem(path, path.pathString, position, item)
 			}
 		}
 	}

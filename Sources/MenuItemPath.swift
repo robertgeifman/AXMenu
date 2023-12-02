@@ -14,13 +14,6 @@ import SwiftUIAdditions
 
 // MARK: - MenuItemPath
 struct MenuItemPath: Hashable {
-	struct Element: Hashable, Codable {
-		let index: Int
-		let title: String
-
-		func hash(into hasher: inout Hasher) { title.hash(into: &hasher) }
-	}
-
 	@Property var elements: [Element]
 	var pathString: String {
 		map(\.title).joined(separator: "->")
@@ -48,12 +41,15 @@ extension MenuItemPath: ExpressibleByArrayLiteral {
 
 // MARK: - RandomAccessCollection
 extension MenuItemPath: RandomAccessCollection {
+	struct Element: Hashable, Codable {
+		let index: Int
+		let title: String
+		func hash(into hasher: inout Hasher) { title.hash(into: &hasher) }
+	}
 	var startIndex: Int { elements.startIndex }
 	var endIndex: Int { elements.endIndex }
 	func appending(_ element: Element) -> Self {
-		let result = self
-		result.elements.append(element)
-		return result
+		.init(elements.appending(element))
 	}
 	subscript(position: Int) -> Element { elements[position] }
 }
