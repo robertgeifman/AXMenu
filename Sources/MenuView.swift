@@ -17,35 +17,42 @@ import AXEssibility
 struct MenuView: View {
 	@Binding var selectedApplication: RunningApplication
 	@State var menuGroups: [MenuGroup] = []
-	@State var selection: MenuCommand?
+//	@State var selection: MenuCommand?
+	@State var selection: String?
 
 	var body: some View {
 		List(selection: $selection) {
-			ForEach($menuGroups, id: \.title) { group in
+			ForEach(menuGroups) { group in
 				DisclosureGroup {
-					ForEach(group.items, id: \.id) { item in
+					ForEach(group.items) { item in
 						HStack(alignment: .top) {
-							Toggle(isOn: item.isSelected) {}
+//							Toggle(isOn: item.wrappedValue.isCommandSelected) {}
+							Toggle(isOn: item.isSelected_) {}
 							.toggleStyle(.checkbox)
-							Text(item.title.wrappedValue)
+
+							Text(item.title)
 							.frame(maxWidth: .infinity, alignment: .leading)
-							if let shortcut = item.shortcut.wrappedValue {
+
+							if let shortcut = item.shortcut {
 								Text(shortcut)
 								.frame(width: 100, alignment: .trailing)
 							}
 						}
 						.frame(maxWidth: .infinity, alignment: .leading)
-						.tag(item.wrappedValue)
+						.tag(item.id)
 					}
 				} label: {
 					HStack {
-						Toggle(isOn: group.isSelected) {}
+						Toggle(sources: group.items, isOn: \.isCommandSelected) {}
 						.toggleStyle(.checkbox)
-						Text(group.title.wrappedValue)
+
+						Text(group.title)
 					}
 				}
+				.tag(group.id)
 			}
 		}
+		.listRowSeparator(.hidden)
 		.onAppear {
 			menuGroups = AXMenuBar.menuBar(for: selectedApplication)
 		}

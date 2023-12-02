@@ -13,12 +13,12 @@ import SwiftUI
 import SwiftUIAdditions
 
 // MARK: - MenuGroup
-struct MenuGroup: Hashable, DeferredDecodableContainer, Encodable {
+struct MenuGroup: Hashable, Identifiable {
 	@Property var id: String
 	@Property var path: MenuItemPath
 	@Property var index: Int
 	@Property var title: String
-	@Property var isSelected: Bool = true
+//	@Property var isSelected: Bool = true
 	@Property var items: [MenuCommand]
 
 	init(app: String, path: MenuItemPath, index: Int, title: String, items: [MenuCommand] = []) {
@@ -27,6 +27,24 @@ struct MenuGroup: Hashable, DeferredDecodableContainer, Encodable {
 		self.index = index
 		self.title = title
 	}
+}
+
+extension MenuGroup {
+	var isSelected: Binding<Bool> {
+		.init {
+			UserDefaults.standard.bool(forKey: id)
+		} set: {
+			let defaults = UserDefaults.standard
+			defaults.set($0, forKey: id)
+			for item in items {
+				defaults.set($0, forKey: item.id)
+			}
+			defaults.synchronize()
+		}
+	}
+}
+
+extension MenuGroup: DeferredDecodableContainer, Encodable {
 	init(_: DeferredDecoder) {}
 }
 

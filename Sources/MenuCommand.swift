@@ -12,7 +12,7 @@ import SwiftUIAdditions
 import AXEssibility
 
 // MARK: - MenuCommand
-struct MenuCommand: Hashable, DeferredDecodableContainer, Encodable {
+struct MenuCommand: Identifiable {
 	enum Mode: Int, Hashable, Codable {
 		case none, shortcut, script, menu
 	}
@@ -21,8 +21,8 @@ struct MenuCommand: Hashable, DeferredDecodableContainer, Encodable {
 	@Property var index: Int
 	@Property var title: String
 
+	@Property var isSelected: Bool = false
 	@Property var shortcut: String? = nil
-	@Property var isSelected: Bool = true
 	@Property var command: String? = nil
 	@Property var mode: Mode = .none
 
@@ -32,9 +32,33 @@ struct MenuCommand: Hashable, DeferredDecodableContainer, Encodable {
 		self.index = index
 		self.title = title
 	}
-	init(_: DeferredDecoder) {}
+}
 
+extension MenuCommand: Hashable {
 	func hash(into hasher: inout Hasher) {
 		id.hash(into: &hasher)
+	}
+}
+
+extension MenuCommand: DeferredDecodableContainer, Encodable {
+	init(_: DeferredDecoder) {}
+}
+
+extension MenuCommand {
+	var isSelected_: Binding<Bool> {
+		.init {
+			isSelected
+		} set: {
+			isSelected = $0
+		}
+	}
+	var isCommandSelected: Binding<Bool> {
+		.init {
+			UserDefaults.standard.bool(forKey: id)
+		} set: {
+			let defaults = UserDefaults.standard
+			defaults.set($0, forKey: id)
+			defaults.synchronize()
+		}
 	}
 }
