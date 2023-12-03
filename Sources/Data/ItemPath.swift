@@ -33,8 +33,8 @@ extension Application {
 	}
 }
 
-// MARK: - Application.ItemPath: DeferredDecodableContainer, Encodable
-extension Application.ItemPath: DeferredDecodableContainer, Encodable {
+// MARK: - Application.ItemPath: DeferredContainer, Encodable
+extension Application.ItemPath: DeferredContainer, Encodable {
 	init(_: DeferredDecoder) {}
 }
 

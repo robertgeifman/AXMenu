@@ -44,8 +44,8 @@ extension Application.Group {
 	}
 }
 
-// MARK: - Application.Group: DeferredDecodableContainer, Encodable
-extension Application.Group: DeferredDecodableContainer, Encodable {
+// MARK: - Application.Group: DeferredContainer, Encodable
+extension Application.Group: DeferredContainer, Encodable {
 	init(_: DeferredDecoder) {}
 }
 

@@ -42,8 +42,8 @@ extension Application.Command: Hashable {
 	}
 }
 
-// MARK: - Application.Command: DeferredDecodableContainer, Encodable
-extension Application.Command: DeferredDecodableContainer, Encodable {
+// MARK: - Application.Command: DeferredContainer, Encodable
+extension Application.Command: DeferredContainer, Encodable {
 	init(_: DeferredDecoder) {}
 }
 
