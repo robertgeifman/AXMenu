@@ -15,12 +15,12 @@ import SwiftUIAdditions
 // MARK: - AppView
 struct AppView: View {
 	@State var accessibilityEnabled = AXIsProcessTrusted()
-	@Binding var selectedApplication: RunningApplication?
+	@Binding var application: RunningApplication?
 
 	var body: some View {
 		if accessibilityEnabled {
-			if let binding =  Binding<RunningApplication>($selectedApplication) {
-				MenuView(selectedApplication: binding)
+			if let binding =  Binding<RunningApplication>($application) {
+				MenuView(application: binding)
 			} else {
 				NoSelectionView()
 			}

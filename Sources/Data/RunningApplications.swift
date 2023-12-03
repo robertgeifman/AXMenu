@@ -49,4 +49,27 @@ struct RunningApplication: Hashable {
 		pid = application.processIdentifier
 		name = plist[kCFBundleNameKey as String] as? String ?? id
 	}
+
+	func commandSelected(_ id: String) -> Binding<Bool> {
+		.init {
+			UserDefaults.standard.bool(forKey: id)
+		} set: {
+			let defaults = UserDefaults.standard
+			defaults.set($0, forKey: id)
+			defaults.synchronize()
+		}
+	}
+
+	func groupSelected(_ id: String) -> Binding<Bool> {
+		.init {
+			UserDefaults.standard.bool(forKey: id)
+		} set: {
+			let defaults = UserDefaults.standard
+			defaults.set($0, forKey: id)
+//			for item in items {
+//				defaults.set($0, forKey: item.id)
+//			}
+			defaults.synchronize()
+		}
+	}
 }

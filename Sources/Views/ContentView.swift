@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-	@StateObject var data = RunningApplications()
+	@StateObject var applications = RunningApplications()
 	@State var sidebarSplitItem: NSSplitViewItem?
-	@State var selectedApplication: RunningApplication?
+	@State var application: RunningApplication?
 
 	var body: some View {
 		NavigationView {
-			AppList(selectedApplication: $selectedApplication)
-			AppView(selectedApplication: $selectedApplication)
+			AppList(application: $application)
+			AppView(application: $application)
 		}
-		.environmentObject(data)
+		.environmentObject(applications)
 		.navigationViewStyle(DoubleColumnNavigationViewStyle())
 		.sibling(ofType: NSSplitView.self) {
 			if let delegate = $0.delegate as? NSSplitViewController, let first = delegate.splitViewItems.first {

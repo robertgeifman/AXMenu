@@ -15,10 +15,10 @@ import SwiftUIAdditions
 // MARK: - AppList
 struct AppList: View {
 	@EnvironmentObject var data: RunningApplications
-	@Binding var selectedApplication: RunningApplication?
+	@Binding var application: RunningApplication?
 
 	var body: some View {
-		List($data.applications, id: \.id, selection: $selectedApplication) {
+		List($data.applications, id: \.id, selection: $application) {
 			Text($0.wrappedValue.name).tag($0.wrappedValue)
 		}
 		.onReceive(NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didLaunchApplicationNotification)) { _ in
