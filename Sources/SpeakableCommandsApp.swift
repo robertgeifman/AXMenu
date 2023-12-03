@@ -11,14 +11,11 @@ import SwiftUI
 // import SwiftUIAdditions
 import Cocoa
 
-@main
-struct SpeakableCommandsApp: App {
+// MARK: - SpeakableCommandsApp
+@main struct SpeakableCommandsApp: App {
 	@NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
-
 	var body: some Scene {
-		WindowGroup {
-			ContentView()
-		}
+		ApplicationScene()
 	}
 }
 

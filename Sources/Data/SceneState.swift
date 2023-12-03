@@ -42,11 +42,7 @@ final class SceneState: ObservableObject {
 	}
 	@MainActor
 	init(snapshot: Snapshot) throws {
-		var applications: [Application] = try .init(snapshot: snapshot.applications)
-		if applications.isEmpty {
-			applications = [Application()]
-		} else {
-		}
+		let applications: [Application] = try snapshot.applications.map { try .init(snapshot: $0) }
 		_applications = .init(wrappedValue: applications)
 	}
 }

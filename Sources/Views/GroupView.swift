@@ -14,8 +14,8 @@ import SwiftUIAdditions
 import SQLite
 import Combine
 
-// MARK: - MenuGroupView
-struct MenuGroupView: View {
+// MARK: - GroupView
+struct GroupView: View {
 	let group: Application.Group
 	@AppStorage var isSelected: Bool
 

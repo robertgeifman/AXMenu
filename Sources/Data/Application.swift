@@ -15,30 +15,32 @@ import Combine
 
 // MARK: - Application
 @MainActor
-final class Application: ObservableObject, Identifiable, SnapshotCodable {
-	nonisolated let id: UUID
-	@Published var commands: [Command.ID] = [] {
-		willSet { objectWillChange.send() }
-		didSet { objectWillChange.send() }
-	}
-	@Published var configuration: [String: Command] = [:] {
-		willSet { objectWillChange.send() }
-		didSet { objectWillChange.send() }
-	}
+struct Application: Identifiable {
+	@Property var id: String
+	@Property var name: String
+	@Property var pid: pid_t?
+	@Property var commands: [Command.ID]
+	@Property var configuration: [String: Command]
+	
+	init?(_ application: NSRunningApplication) {
+		guard let identifier = application.bundleIdentifier,
+			let url = application.bundleURL,
+			let bundle = Bundle(url: url) else { return nil }
 
-	nonisolated init() {
-		id = Application.ID()
-	}
-	@MainActor
-	init(snapshot: Snapshot) throws {
-		id = snapshot.id
-		commands = snapshot.commands
-		configuration = snapshot.configuration
+		let plist = bundle.infoDictionary ?? [:]
+		if let value = plist["LSBackgroundOnly"] as? Bool, value { return nil }
+		if let value = plist["LSUIElement"] as? Bool, value { return nil }
+		if let value = plist["CFBundlePackageType"] as? String, value != "APPL" { return nil }
+		if let value = plist["LSUIPresentationMode"] as? Int, value != 0 { return nil }
+
+		id = identifier
+		pid = application.processIdentifier
+		name = plist[kCFBundleNameKey as String] as? String ?? id
 	}
 }
 
 // MARK: - Application.Snapshot
-extension Application {
+extension Application: SnapshotCodable {
 	struct Snapshot: Identifiable, Hashable, Codable {
 		let id: Application.ID
 		let commands: [Command.ID]
@@ -50,20 +52,27 @@ extension Application {
 			commands: commands,
 			configuration: configuration)
 	}
+
+	@MainActor
+	init(snapshot: Snapshot) throws {
+		id = snapshot.id
+		commands = snapshot.commands
+		configuration = snapshot.configuration
+	}
 }
 
 extension Application.Snapshot {
 	var dictionaryRepresentation: [String: Any] {
 		[
-			"id": id.uuidString,
+			"id": id,
 //			"stacks": stacks.map { $0 }.joined(separator: ", "),
-			"selectedTags": commands,
+			"commands": commands,
+			"configuration": configuration,
 		]
 	}
 
-	init(dictionaryRepresentation representation: [String: Any]) {
-		id = (representation["id"] as? String)
-			.map { UUID(uuidString: $0) ?? UUID() } ?? UUID()
+	init(dictionaryRepresentation representation: [String: Any]) throws {
+		id = try representation["id"] as? String ?! UnexpectedNilError()
 //		<#var#> = representation["<#key#>"] as? Double ?? 0
 //		<#var#> = representation["<#key#>"] as? String ?? ""
 //		<#var#> = representation["<#key#>"] as? Bool ?? false
@@ -71,8 +80,9 @@ extension Application.Snapshot {
 		commands = representation["commands"] as? [String] ?? []
 		configuration = representation["configuration"] as? [String: Application.Command] ?? [:]
 	}
-	init(from defaults: UserDefaults, key: String) {
-		self.init(dictionaryRepresentation: defaults.dictionary(forKey: key) ?? [:])
+
+	init(from defaults: UserDefaults, key: String) throws {
+		try self.init(dictionaryRepresentation: defaults.dictionary(forKey: key) ?? [:])
 	}
 
 	func store(in defaults: UserDefaults, key: String) {
@@ -85,9 +95,9 @@ extension Application.Snapshot {
 
 // MARK: - Array<Application.Snapshot>
 extension Array where Element == Application.Snapshot {
-	init(from defaults: UserDefaults) {
+	init(from defaults: UserDefaults) throws {
 		if let panels = defaults.array(forKey: "panels") as? [[String: Any]] {
-			self = panels.map { .init(dictionaryRepresentation: $0) }
+			self = try panels.map { try .init(dictionaryRepresentation: $0) }
 		} else {
 			self = []
 		}

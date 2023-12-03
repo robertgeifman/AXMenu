@@ -14,8 +14,8 @@ import SwiftUIAdditions
 import SQLite
 import Combine
 
-// MARK: - MenuCommandView
-struct MenuCommandView: View {
+// MARK: - CommandView
+struct CommandView: View {
 	let item: Application.Command
 	@AppStorage var isSelected: Bool
 
