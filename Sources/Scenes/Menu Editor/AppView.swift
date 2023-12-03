@@ -14,21 +14,13 @@ import SwiftUIAdditions
 
 // MARK: - AppView
 struct AppView: View {
-	@State var accessibilityEnabled = AXIsProcessTrusted()
 	@Binding var application: Selection<Application>
 
 	var body: some View {
-		if accessibilityEnabled {
-			if let first = application.first {
-				MenuView(application: first.value)
-			} else {
-				NoSelectionView()
-			}
+		if let first = application.first {
+			MenuView(application: first.value)
 		} else {
-			PermissionRequestView()
-				.onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
-					accessibilityEnabled = AXIsProcessTrusted()
-				}
+			NoSelectionView()
 		}
 	}
 }

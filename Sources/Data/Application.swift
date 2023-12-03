@@ -14,28 +14,53 @@ import SwiftUIAdditions
 import Combine
 
 // MARK: - Application
-@MainActor
 struct Application: Identifiable {
 	@Property var id: String
 	@Property var name: String
-	@Property var pid: pid_t?
+//	@Property var pid: pid_t?
+	@Property var menus: [MenuGroup]?
 	@Property var commands: [Command.ID]
 	@Property var configuration: [String: Command]
-	
-	init?(_ application: NSRunningApplication) {
-		guard let identifier = application.bundleIdentifier,
-			let url = application.bundleURL,
-			let bundle = Bundle(url: url) else { return nil }
 
-		let plist = bundle.infoDictionary ?? [:]
+	init?(_ application: RunningApplication) {
+		id = application.id
+		name = application.name
+		menus = nil
+		commands = []
+		configuration = [:]
+	}
+	init?(_ bundle: Bundle) {
+		guard let identifier = bundle.bundleIdentifier,
+			let plist = bundle.infoDictionary else { return nil }
+
 		if let value = plist["LSBackgroundOnly"] as? Bool, value { return nil }
 		if let value = plist["LSUIElement"] as? Bool, value { return nil }
 		if let value = plist["CFBundlePackageType"] as? String, value != "APPL" { return nil }
 		if let value = plist["LSUIPresentationMode"] as? Int, value != 0 { return nil }
 
 		id = identifier
-		pid = application.processIdentifier
 		name = plist[kCFBundleNameKey as String] as? String ?? id
+		menus = nil
+		commands = []
+		configuration = [:]
+	}
+	init?(_ application: NSRunningApplication) {
+		guard let identifier = application.bundleIdentifier,
+			let url = application.bundleURL,
+			let bundle = Bundle(url: url),
+			let plist = bundle.infoDictionary  else { return nil }
+
+		if let value = plist["LSBackgroundOnly"] as? Bool, value { return nil }
+		if let value = plist["LSUIElement"] as? Bool, value { return nil }
+		if let value = plist["CFBundlePackageType"] as? String, value != "APPL" { return nil }
+		if let value = plist["LSUIPresentationMode"] as? Int, value != 0 { return nil }
+
+		id = identifier
+//		pid = application.processIdentifier
+		name = plist[kCFBundleNameKey as String] as? String ?? id
+		menus = nil
+		commands = []
+		configuration = [:]
 	}
 }
 
@@ -43,19 +68,21 @@ struct Application: Identifiable {
 extension Application: SnapshotCodable {
 	struct Snapshot: Identifiable, Hashable, Codable {
 		let id: Application.ID
+		let menus: [MenuGroup]?
 		let commands: [Command.ID]
 		let configuration: [Command.ID: Command]
 	}
 
-	@MainActor var snapshot: Snapshot {
+	var snapshot: Snapshot {
 		.init(id: id,
+			menus: menus,
 			commands: commands,
 			configuration: configuration)
 	}
 
-	@MainActor
 	init(snapshot: Snapshot) throws {
 		id = snapshot.id
+		menus = snapshot.menus
 		commands = snapshot.commands
 		configuration = snapshot.configuration
 	}
@@ -65,9 +92,9 @@ extension Application.Snapshot {
 	var dictionaryRepresentation: [String: Any] {
 		[
 			"id": id,
-//			"stacks": stacks.map { $0 }.joined(separator: ", "),
 			"commands": commands,
 			"configuration": configuration,
+			"menus": menus,
 		]
 	}
 
@@ -77,6 +104,7 @@ extension Application.Snapshot {
 //		<#var#> = representation["<#key#>"] as? String ?? ""
 //		<#var#> = representation["<#key#>"] as? Bool ?? false
 //		<#var#> = (representation["<#key#>"] as? String)?.components(separatedBy: ", ") ?? []
+		menus = representation["menus"] as? [Application.MenuGroup] ?? []
 		commands = representation["commands"] as? [String] ?? []
 		configuration = representation["configuration"] as? [String: Application.Command] ?? [:]
 	}

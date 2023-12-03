@@ -16,9 +16,9 @@ import AXEssibility
 
 // MARK: - AXMenuBar
 extension AXMenuBar {
-	static var cache: [String: [Application.Group]] = [:]
+	static var cache: [String: [Application.MenuGroup]] = [:]
 
-	static func menuBar(for runningApplication: RunningApplication) -> [Application.Group] {
+	static func menuBar(for runningApplication: RunningApplication) -> [Application.MenuGroup] {
 		if let commands = cache[runningApplication.id] {
 			return commands
 		}
@@ -26,7 +26,7 @@ extension AXMenuBar {
 		let application = AXApplication(runningApplication.pid)
 		let app = runningApplication.name
 		var groupsOrder: [String] = []
-		var groups: [String: Application.Group] = ["": .init(app: app, path: [], index: 1, title: "")]
+		var groups: [String: Application.MenuGroup] = ["": .init(app: app, path: [], index: 1, title: "")]
 		do {
 			for (index, item) in try application.menuBar.menuItems.enumerated() {
 				guard var title = item.title else {
@@ -37,12 +37,12 @@ extension AXMenuBar {
 				}
 				
 				if !item.isSubMenu {
-					let command = Application.Command(app: app, path: [], index: index, title: title)
-					if let group = groups[""] {
-						groups[""] = group.appending(command)
-					} else {
-						groups[""] = .init(app: app, path: [], index: index, title: "", items: [command])
-					}
+//					let command = Application.MenuItem(app: app, path: [], index: index, title: title)
+//					if let group = groups[""] {
+//						groups[""] = group.appending(command)
+//					} else {
+//						groups[""] = .init(app: app, path: [], index: index, title: "", items: [command])
+//					}
 					continue
 				}
 
@@ -50,18 +50,19 @@ extension AXMenuBar {
 					guard let title = child.title, !title.isEmpty else {
 						return
 					}
-					let command = Application.Command(app: app, path: path, index: index, title: title)
-					if let value = try? child.menuItemCmdVirtualKey, var shortcut = AXMenuItem.stringForKey(value) {
+					var shortcut: String?
+					if let value = try? child.menuItemCmdVirtualKey, var key = AXMenuItem.stringForKey(value) {
 						if let modifiers = try? child.menuItemCmdModifiers, let string = AXMenuItem.stringForModifiers(modifiers) {
-							shortcut = string + " " + shortcut
+							key = string + " " + key
 						}
-						command.shortcut = shortcut
-					} else if var shortcut = try? child.menuItemCmdChar {
+						shortcut = key
+					} else if var key = try? child.menuItemCmdChar {
 						if let modifiers = try? child.menuItemCmdModifiers, let string = AXMenuItem.stringForModifiers(modifiers) {
-							shortcut = string + " " + shortcut
+							key = string + " " + key
 						}
-						command.shortcut = shortcut
+						shortcut = key
 					}
+					let command = Application.MenuItem(app: app, path: path, index: index, title: title, shortcut: shortcut)
 					let pathString = path.pathString
 					if let group = groups[pathString] {
 						groups[pathString] = group.appending(command)
@@ -80,7 +81,7 @@ extension AXMenuBar {
 			return []
 		}
 
-		let result = groupsOrder.compactMap { pathString -> Application.Group? in
+		let result = groupsOrder.compactMap { pathString -> Application.MenuGroup? in
 			guard let group = groups[pathString], !group.isEmpty else { return nil }
 			return group
 		}

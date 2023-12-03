@@ -13,25 +13,28 @@ import SwiftUIAdditions
 // MARK: - EditCommands
 struct EditCommands: Commands {
 //	@Environment(\.undoManager) var undoManager
-	var applications: RunningApplications
+	@Environment(\.runningApplications) var applications
+	@Environment(\.sceneState) var scene
 
 	var body: some Commands {
 		TextEditingCommands()
 		CommandGroup(after: .pasteboard) {
 			Divider()
 			Menu("Add Application") {
-//				Command("Add Running Application…", \.addRunningApplication)
-//				.keyboardShortcut("A", modifiers: [.command, .option])
-				ForEach(applications.applications, id: \.id) { application in
-					Button {
-					} label: {
-						Text(application.name)
-					}
-				}
-
-				Divider()
 				Command("Add Application…", \.addApplication)
 				.keyboardShortcut("A", modifiers: [.command, .option])
+				Divider()
+//				Command("Add Running Application…", \.addRunningApplication)
+//				.keyboardShortcut("A", modifiers: [.command, .option])
+				ForEach(applications, id: \.id) { runningApplication in
+					Button {
+						if let application = Application(runningApplication) {
+							scene.addApplication(application)
+						}
+					} label: {
+						Text(runningApplication.name)
+					}
+				}
 			}
 		}
 	}

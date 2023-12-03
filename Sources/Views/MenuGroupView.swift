@@ -14,29 +14,27 @@ import SwiftUIAdditions
 import SQLite
 import Combine
 
-// MARK: - CommandView
-struct CommandView: View {
-	let item: Application.Command
+// MARK: - MenuGroupView
+struct MenuGroupView: View {
+	let group: Application.MenuGroup
 	@AppStorage var isSelected: Bool
 
-	init(item: Application.Command) {
-		self.item = item
-		_isSelected = AppStorage(wrappedValue: false, item.id)
+	init(group: Application.MenuGroup) {
+		self.group = group
+		_isSelected = AppStorage(wrappedValue: false, group.id)
 	}
-
 	var body: some View {
-		HStack(alignment: .top) {
+		HStack {
 			Toggle(isOn: $isSelected) {}
 			.toggleStyle(.checkbox)
-
-			Text(item.title)
-			.frame(maxWidth: .infinity, alignment: .leading)
-
-			if let shortcut = item.shortcut {
-				Text(shortcut)
-				.frame(width: 100, alignment: .trailing)
+			.onChange(of: isSelected) { 
+				let defaults = UserDefaults.standard
+				for item in group.items {
+					defaults.set($0, forKey: item.id)
+				}
+				defaults.synchronize()
 			}
+			Text(group.title)
 		}
-		.frame(maxWidth: .infinity, alignment: .leading)
 	}
 }

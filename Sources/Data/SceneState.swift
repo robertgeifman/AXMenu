@@ -14,9 +14,9 @@ import SwiftUIAdditions
 import Combine
 
 // MARK: - SceneState
-@MainActor
 final class SceneState: ObservableObject {
 	@Published var applications: [Application]
+	@Published var selectedApplications: Selection<Application> = []
 	var cancellables: Set<AnyCancellable> = []
 
 	@MainActor
@@ -36,7 +36,6 @@ final class SceneState: ObservableObject {
 			.store(in: &cancellables)
 	}
 
-	@MainActor
 	init(_applications applications: [Application]) {
 		_applications = .init(wrappedValue: applications)
 	}
@@ -44,6 +43,15 @@ final class SceneState: ObservableObject {
 	init(snapshot: Snapshot) throws {
 		let applications: [Application] = try snapshot.applications.map { try .init(snapshot: $0) }
 		_applications = .init(wrappedValue: applications)
+	}
+
+	func addApplication(_ application: Application) {
+		if nil == applications.first(where: { $0.id == application.id }) {
+			applications = applications.appending(application).sorted {
+				$0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+			}
+		}
+		selectedApplications = [application]
 	}
 }
 

@@ -27,12 +27,39 @@ struct ApplicationScene: Scene {
 			.onReceive(NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didTerminateApplicationNotification)) { _ in
 				runningApplications.reload()
 			}
+			.transformEnvironment(\.runningApplications) { 
+				$0 = runningApplications.applications
+			}
 		}
 		.commands {
-			EditCommands(applications: runningApplications)
+			EditCommands()
 		}
 		._environment(\.actionStore, actionStore)
+		._environment(\.sceneState, scene)
+		._environment(\.runningApplications, runningApplications.applications)
 		.windowToolbarStyle(.unified(showsTitle: true))
 		.windowStyle(.titleBar)
 	}
 }
+
+// MARK: - EnvironmentValues - ActionStoreKey
+extension EnvironmentValues {
+	struct SceneStateKey: EnvironmentKey {
+		static var defaultValue: SceneState = .init(_applications: [])
+	}
+
+	var sceneState: SceneStateKey.Value {
+		get { self[SceneStateKey.self] }
+		set { self[SceneStateKey.self] = newValue }
+	}
+
+	struct RunningApplicationsKey: EnvironmentKey {
+		static var defaultValue: [RunningApplication] = []
+	}
+
+	var runningApplications: RunningApplicationsKey.Value {
+		get { self[RunningApplicationsKey.self] }
+		set { self[RunningApplicationsKey.self] = newValue }
+	}
+}
+
