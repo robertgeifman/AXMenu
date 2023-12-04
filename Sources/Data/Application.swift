@@ -17,17 +17,14 @@ import Combine
 struct Application: Identifiable {
 	@Property var id: String
 	@Property var name: String
-//	@Property var pid: pid_t?
 	@Property var menus: [MenuGroup]?
-	@Property var commands: [Command.ID]
-	@Property var configuration: [String: Command]
+	@Property var commands: [Command]
 
 	init?(_ application: RunningApplication) {
 		id = application.id
 		name = application.name
 		menus = nil
 		commands = []
-		configuration = [:]
 	}
 	init?(_ bundle: Bundle) {
 		guard let identifier = bundle.bundleIdentifier,
@@ -42,7 +39,6 @@ struct Application: Identifiable {
 		name = plist[kCFBundleNameKey as String] as? String ?? id
 		menus = nil
 		commands = []
-		configuration = [:]
 	}
 	init?(_ application: NSRunningApplication) {
 		guard let identifier = application.bundleIdentifier,
@@ -56,11 +52,9 @@ struct Application: Identifiable {
 		if let value = plist["LSUIPresentationMode"] as? Int, value != 0 { return nil }
 
 		id = identifier
-//		pid = application.processIdentifier
 		name = plist[kCFBundleNameKey as String] as? String ?? id
 		menus = nil
 		commands = []
-		configuration = [:]
 	}
 }
 
@@ -68,74 +62,39 @@ struct Application: Identifiable {
 extension Application: SnapshotCodable {
 	struct Snapshot: Identifiable, Hashable, Codable {
 		let id: Application.ID
-		let menus: [MenuGroup]?
-		let commands: [Command.ID]
-		let configuration: [Command.ID: Command]
+		let menus: [MenuGroup].Snapshot?
+		let commands: [Command].Snapshot
 	}
 
 	var snapshot: Snapshot {
 		.init(id: id,
-			menus: menus,
-			commands: commands,
-			configuration: configuration)
+			menus: menus?.snapshot,
+			commands: commands.snapshot)
 	}
 
 	init(snapshot: Snapshot) throws {
 		id = snapshot.id
-		menus = snapshot.menus
-		commands = snapshot.commands
-		configuration = snapshot.configuration
+		menus = try snapshot.menus.map { try .init(snapshot:$0) }
+		commands = try .init(snapshot: snapshot.commands)
 	}
 }
 
-extension Application.Snapshot {
+extension Application.Snapshot: PListCodable {
 	var dictionaryRepresentation: [String: Any] {
-		[
+		configure([
 			"id": id,
-			"commands": commands,
-			"configuration": configuration,
-			"menus": menus,
-		]
-	}
-
-	init(dictionaryRepresentation representation: [String: Any]) throws {
-		id = try representation["id"] as? String ?! UnexpectedNilError()
-//		<#var#> = representation["<#key#>"] as? Double ?? 0
-//		<#var#> = representation["<#key#>"] as? String ?? ""
-//		<#var#> = representation["<#key#>"] as? Bool ?? false
-//		<#var#> = (representation["<#key#>"] as? String)?.components(separatedBy: ", ") ?? []
-		menus = representation["menus"] as? [Application.MenuGroup] ?? []
-		commands = representation["commands"] as? [String] ?? []
-		configuration = representation["configuration"] as? [String: Application.Command] ?? [:]
-	}
-
-	init(from defaults: UserDefaults, key: String) throws {
-		try self.init(dictionaryRepresentation: defaults.dictionary(forKey: key) ?? [:])
-	}
-
-	func store(in defaults: UserDefaults, key: String) {
-		defaults.set(dictionaryRepresentation, forKey: key)
-	}
-	func register(defaultValues values: inout [String: Any], key: String) {
-		values[key] = dictionaryRepresentation
-	}
-}
-
-// MARK: - Array<Application.Snapshot>
-extension Array where Element == Application.Snapshot {
-	init(from defaults: UserDefaults) throws {
-		if let panels = defaults.array(forKey: "panels") as? [[String: Any]] {
-			self = try panels.map { try .init(dictionaryRepresentation: $0) }
-		} else {
-			self = []
+			"commands": commands.dictionaryRepresentation,
+		]) { rep in
+			if let menus { rep["menus"] = menus }
 		}
 	}
 
-	func store(in defaults: UserDefaults) {
-		let panels = map(\.dictionaryRepresentation)
-		defaults.set(panels, forKey: "panels")
-	}
-	func register(defaultValues values: inout [String: Any]) {
-		values["panels"] = map(\.dictionaryRepresentation)
+	init(dictionaryRepresentation representation: Any?) throws {
+		let representation = try representation as? [String:Any] ?! TypeMismatchError(representation, expected: [String:Any].self)
+		id = try representation["id"] as? String ?! UnexpectedNilError()
+		menus = try representation["menus"].map {
+			try .init(dictionaryRepresentation: $0 as? [[String: Any]] ?! UnexpectedNilError())
+		}
+		commands = try .init(dictionaryRepresentation: representation["commands"])
 	}
 }

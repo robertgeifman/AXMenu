@@ -47,14 +47,60 @@ extension Application.Command: DeferredContainer, Encodable {
 	init(_: DeferredDecoder) {}
 }
 
-extension Application.Command {
-	var isSelected: Binding<Bool> {
-		.init {
-			UserDefaults.standard.bool(forKey: id)
-		} set: {
-			let defaults = UserDefaults.standard
-			defaults.set($0, forKey: id)
-			defaults.synchronize()
+// MARK: - Application.Command: SnapshotCodable
+extension Application.Command: SnapshotCodable {
+	struct Snapshot: Identifiable, Hashable, Codable {
+		let id: String
+		let path: Application.ItemPath.Snapshot
+		let index: Int
+		let title: String
+		let shortcut: String?
+		let command: String?
+		let mode: Mode.RawValue
+	}
+
+	var snapshot: Snapshot {
+		.init(id: id,
+			path: path.snapshot,
+			index: index,
+			title: title,
+			shortcut: shortcut,
+			command: command,
+			mode: mode.rawValue)
+	}
+
+	init(snapshot: Snapshot) throws {
+		id = snapshot.id
+		path = try .init(snapshot: snapshot.path)
+		index = snapshot.index
+		title = snapshot.title
+		shortcut = snapshot.shortcut
+		command = snapshot.command
+		mode = .init(rawValue: snapshot.mode) ?? .none
+	}
+}
+
+extension Application.Command.Snapshot: PListCodable {
+	var dictionaryRepresentation: [String : Any] {
+		configure([
+			"id": id,
+			"path": path.dictionaryRepresentation,
+			"index": index,
+			"title": title,
+			"mode": mode
+		]) { rep in
+			if let shortcut { rep["shortcut"] = shortcut }
+			if let command { rep["command"] = command }
 		}
+	}
+	init(dictionaryRepresentation representation: Any?) throws {
+		let representation = try representation as? [String:Any] ?! TypeMismatchError(representation, expected: [String:Any].self)
+		id = try representation["id"] as? String ?! UnexpectedNilError()
+		path = try .init(dictionaryRepresentation: representation["path"])
+		index = try representation["index"] as? Int ?! UnexpectedNilError()
+		title = try representation["title"] as? String ?! UnexpectedNilError()
+		shortcut = representation["shortcut"] as? String
+		command = representation["command"] as? String
+		mode = representation["mode"] as? Int ?? 0
 	}
 }

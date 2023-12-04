@@ -15,12 +15,11 @@ import SwiftUIAdditions
 // MARK: - AppList
 struct AppList: View {
 	@EnvironmentObject var scene: SceneState
-	@Binding var selection: Selection<Application>
 	@State var lastError: Error? = nil
-	@State private var isImporting: Bool = false
+	@Binding var selection: Selection<Application>
 
 	var body: some View {
-		OutlineView(scene.applications, selection: $selection) {
+		OutlineView(scene.applications, selection: $scene.selectedApplications) {
 			ForEach_(scene.applications) { item in
 				Item(item) {
 					Text($0.name)
@@ -33,17 +32,7 @@ struct AppList: View {
 		.separatorInsets(NSEdgeInsets(top: 0, left: 23, bottom: 0, right: 0))
 		.tint(.accentColor)
 		.rowSize(.default)
-		.fileImporter(isPresented: $isImporting,
-			allowedContentTypes: [.application]) { result in
-			switch result {
-			case let .success(url): log(url.path)
-			case let .failure(error): log(error)
-			}
-		}
 		.onCommand(\.addApplication) {
-#if false
-			isImporting = true
-#else
 			var directoryURL: URL
 			let user = FileManager.default.urls(for: .applicationDirectory, in: .userDomainMask)
 			if let url = user.first {
@@ -79,7 +68,6 @@ struct AppList: View {
 					let application = Application(bundle) else { continue }
 				scene.addApplication(application)
 			}
-#endif
 		}
 		.alert(error: $lastError, dismissButton: "OK") { lastError = nil }
 	}

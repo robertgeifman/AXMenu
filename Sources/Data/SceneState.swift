@@ -15,14 +15,14 @@ import Combine
 
 // MARK: - SceneState
 final class SceneState: ObservableObject {
-	@Published var applications: [Application]
+	@Published var applications: [Application] = []
 	@Published var selectedApplications: Selection<Application> = []
 	var cancellables: Set<AnyCancellable> = []
 
 	@MainActor
 	convenience init() {
 		do {
-			let snapshot = Snapshot(from: UserDefaults.standard, key: "applications")
+			let snapshot = try Snapshot(from: UserDefaults.standard, key: "applications")
 			try self.init(snapshot: snapshot)
 		} catch {
 			log("error loading StateScene.Snapshot", error)
@@ -41,8 +41,8 @@ final class SceneState: ObservableObject {
 	}
 	@MainActor
 	init(snapshot: Snapshot) throws {
-		let applications: [Application] = try snapshot.applications.map { try .init(snapshot: $0) }
-		_applications = .init(wrappedValue: applications)
+		applications = try snapshot.applications.map { try .init(snapshot: $0) }
+		selectedApplications = try .init(snapshot: snapshot.selectedApplications)
 	}
 
 	func addApplication(_ application: Application) {
@@ -59,37 +59,26 @@ final class SceneState: ObservableObject {
 extension SceneState: SnapshotCodable {
 	struct Snapshot: Codable {
 		let applications: [Application.Snapshot]
+		let selectedApplications: Selection<Application>.Snapshot
 	}
 
 	var snapshot: Snapshot {
-		.init(applications: applications.snapshot)
+		.init(applications: applications.snapshot,
+			selectedApplications: selectedApplications.snapshot)
 	}
 }
 
-extension SceneState.Snapshot {
+extension SceneState.Snapshot: PListCodable {
 	var dictionaryRepresentation: [String: Any] {
 		[
-			"applications": applications,
-//			"stacks": stacks.map { $0 }.joined(separator: ", "),
+			"applications": applications.dictionaryRepresentation,
+			"selectedApplications": selectedApplications.dictionaryRepresentation
 		]
 	}
 
-	init(dictionaryRepresentation representation: [String: Any]) {
-//		<#var#> = representation["<#key#>"] as? Double ?? 0
-//		<#var#> = representation["<#key#>"] as? String ?? ""
-//		<#var#> = representation["<#key#>"] as? Bool ?? false
-//		<#var#> = (representation["<#key#>"] as? String)?.components(separatedBy: ", ") ?? []
-		applications = representation["applications"] as? [Application.Snapshot] ?? []
-	}
-
-	init(from defaults: UserDefaults, key: String) {
-		self.init(dictionaryRepresentation: defaults.dictionary(forKey: key) ?? [:])
-	}
-
-	func store(in defaults: UserDefaults, key: String) {
-		defaults.set(dictionaryRepresentation, forKey: key)
-	}
-	func register(defaultValues values: inout [String: Any], key: String) {
-		values[key] = dictionaryRepresentation
+	init(dictionaryRepresentation representation: Any?) throws {
+		let representation = try representation as? [String:Any] ?! TypeMismatchError(representation, expected: [String:Any].self)
+		applications = try .init(dictionaryRepresentation: representation["applications"])
+		selectedApplications = try .init(dictionaryRepresentation: representation["selectedApplications"])
 	}
 }

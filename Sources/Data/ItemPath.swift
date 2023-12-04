@@ -58,3 +58,59 @@ extension Application.ItemPath: RandomAccessCollection {
 	}
 	subscript(position: Int) -> Element { elements[position] }
 }
+
+// MARK: - Application.ItemPath: SnapshotCodable
+extension Application.ItemPath: SnapshotCodable {
+	struct Snapshot: Hashable, Codable {
+		let elements: [Element].Snapshot
+	}
+	var snapshot: Snapshot {
+		.init(elements: elements.snapshot)
+	}
+
+	init(snapshot: Snapshot) throws {
+		elements = try .init(snapshot: snapshot.elements)
+	}
+}
+
+extension Application.ItemPath.Snapshot: PListCodable {
+	var dictionaryRepresentation: [String : Any] {
+		[
+			"elements": elements.dictionaryRepresentation,
+		]
+	}
+	init(dictionaryRepresentation representation: Any?) throws {
+		let representation = try representation as? [String:Any] ?! TypeMismatchError(representation, expected: [String:Any].self)
+		elements = try .init(dictionaryRepresentation: representation["elements"])
+	}
+}
+
+// MARK: - Application.ItemPath.Element: SnapshotCodable
+extension Application.ItemPath.Element: SnapshotCodable {
+	struct Snapshot: Hashable, Codable {
+		let index: Int
+		let title: String
+	}
+	var snapshot: Snapshot {
+		.init(index: index, title: title)
+	}
+
+	init(snapshot: Snapshot) throws {
+		index = snapshot.index
+		title = snapshot.title
+	}
+}
+
+extension Application.ItemPath.Element.Snapshot: PListCodable {
+	var dictionaryRepresentation: [String : Any] {
+		[
+			"index": index,
+			"title": title,
+		]
+	}
+	init(dictionaryRepresentation representation: Any?) throws {
+		let representation = try representation as? [String:Any] ?! TypeMismatchError(representation, expected: [String:Any].self)
+		index = try representation["index"] as? Int ?! UnexpectedNilError()
+		title = try representation["title"] as? String ?! UnexpectedNilError()
+	}
+}

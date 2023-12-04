@@ -30,33 +30,6 @@ extension Application {
 	}
 }
 
-// MARK: - Application.MenuItem: SnapshotCodable
-extension Application.MenuItem: SnapshotCodable {
-	struct Snapshot: Identifiable, Hashable, Codable {
-		let id: String
-		let path: Application.ItemPath
-		let index: Int
-		let title: String
-		let shortcut: String?
-	}
-
-	var snapshot: Snapshot {
-		.init(id: id,
-			path: path,
-			index: index,
-			title: title,
-			shortcut: shortcut)
-	}
-	
-	init(snapshot: Snapshot) throws {
-		id = snapshot.id
-		path = snapshot.path
-		index = snapshot.index
-		title = snapshot.title
-		shortcut = snapshot.shortcut
-	}
-}
-
 // MARK: - Application.MenuItem: Hashable
 extension Application.MenuItem: Hashable {
 	func hash(into hasher: inout Hasher) {
@@ -67,4 +40,53 @@ extension Application.MenuItem: Hashable {
 // MARK: - Application.MenuItem: DeferredContainer, Encodable
 extension Application.MenuItem: DeferredContainer, Encodable {
 	init(_: DeferredDecoder) {}
+}
+
+
+// MARK: - Application.MenuItem: SnapshotCodable
+extension Application.MenuItem: SnapshotCodable {
+	struct Snapshot: Identifiable, Hashable, Codable {
+		let id: String
+		let path: Application.ItemPath.Snapshot
+		let index: Int
+		let title: String
+		let shortcut: String?
+	}
+
+	var snapshot: Snapshot {
+		.init(id: id,
+			path: path.snapshot,
+			index: index,
+			title: title,
+			shortcut: shortcut)
+	}
+
+	init(snapshot: Snapshot) throws {
+		id = snapshot.id
+		path = try .init(snapshot: snapshot.path)
+		index = snapshot.index
+		title = snapshot.title
+		shortcut = snapshot.shortcut
+	}
+}
+
+extension Application.MenuItem.Snapshot: PListCodable {
+	var dictionaryRepresentation: [String : Any] {
+		configure([
+			"id": id,
+			"path": path.dictionaryRepresentation,
+			"index": index,
+			"title": title,
+		]) { rep in
+			if let shortcut { rep["shortcut"] = shortcut }
+		}
+	}
+	init(dictionaryRepresentation representation: Any?) throws {
+		let representation = try representation as? [String:Any] ?! TypeMismatchError(representation, expected: [String:Any].self)
+		id = try representation["id"] as? String ?! UnexpectedNilError()
+		path = try .init(dictionaryRepresentation: representation["path"])
+		index = try representation["index"] as? Int ?! UnexpectedNilError()
+		title = try representation["title"] as? String ?! UnexpectedNilError()
+		shortcut = representation["shortcut"] as? String
+	}
 }

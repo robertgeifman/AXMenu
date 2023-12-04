@@ -14,10 +14,10 @@ import SwiftUIAdditions
 
 // MARK: - AppView
 struct AppView: View {
-	@Binding var application: Selection<Application>
+	@Binding var selection: Selection<Application>
 
 	var body: some View {
-		if let first = application.first {
+		if let first = selection.first {
 			MenuView(application: first.value)
 		} else {
 			NoSelectionView()

@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		E12AEF192B17C53500E4B07C /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = E12AEF182B17C53500E4B07C /* SQLite */; };
-		E12AEF1D2B17CD3500E4B07C /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12AEF1C2B17CD3500E4B07C /* Command.swift */; };
 		E12AEF272B190E3D00E4B07C /* AXMenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12AEF262B190E3D00E4B07C /* AXMenuBar.swift */; };
 		E12AEF292B190FC400E4B07C /* MenuGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12AEF282B190FC400E4B07C /* MenuGroup.swift */; };
+		E136A4C32B1DEB9100221F6B /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = E136A4C22B1DEB9100221F6B /* Command.swift */; };
 		E142F24A2B14E2C300984C8C /* RunningApplications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E142F2492B14E2C300984C8C /* RunningApplications.swift */; };
 		E16302A72B15086300702F3C /* AppList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16302A62B15086300702F3C /* AppList.swift */; };
 		E16302A92B1508B900702F3C /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16302A82B1508B900702F3C /* AppView.swift */; };
@@ -36,9 +36,9 @@
 /* Begin PBXFileReference section */
 		E12AEF162B174F1D00E4B07C /* AXMenu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AXMenu.entitlements; sourceTree = "<group>"; };
 		E12AEF172B17C51A00E4B07C /* sqlite */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = sqlite; path = Packages/sqlite; sourceTree = "<group>"; };
-		E12AEF1C2B17CD3500E4B07C /* Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		E12AEF262B190E3D00E4B07C /* AXMenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXMenuBar.swift; sourceTree = "<group>"; };
 		E12AEF282B190FC400E4B07C /* MenuGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuGroup.swift; sourceTree = "<group>"; };
+		E136A4C22B1DEB9100221F6B /* Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		E142F2492B14E2C300984C8C /* RunningApplications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningApplications.swift; sourceTree = "<group>"; };
 		E143368A2B14823C0007B603 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E16302A62B15086300702F3C /* AppList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppList.swift; sourceTree = "<group>"; };
@@ -169,7 +169,7 @@
 		E1E830452B1C9D6200B793F4 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				E12AEF1C2B17CD3500E4B07C /* Command.swift */,
+				E136A4C22B1DEB9100221F6B /* Command.swift */,
 				E1E6B92F2B1CF67B005FA0F2 /* MenuItem.swift */,
 				E12AEF282B190FC400E4B07C /* MenuGroup.swift */,
 				E19E4C262B19D20E00BD5CFD /* ItemPath.swift */,
@@ -276,6 +276,7 @@
 				E1C5E3102B1BD0BE00D6B57E /* MenuGroupView.swift in Sources */,
 				E1C5E30E2B1BCFFB00D6B57E /* MenuItemView.swift in Sources */,
 				E169CE3F2B15C9D700B91C1F /* NoSelectionView.swift in Sources */,
+				E136A4C32B1DEB9100221F6B /* Command.swift in Sources */,
 				E169CE3D2B15C97800B91C1F /* MenuView.swift in Sources */,
 				E16302A92B1508B900702F3C /* AppView.swift in Sources */,
 				E12AEF292B190FC400E4B07C /* MenuGroup.swift in Sources */,
@@ -290,7 +291,6 @@
 				E16302A72B15086300702F3C /* AppList.swift in Sources */,
 				E1B5C7482B13C9BC00F5FA04 /* SpeakableCommandsApp.swift in Sources */,
 				E1E830432B1C9A9700B793F4 /* Application.swift in Sources */,
-				E12AEF1D2B17CD3500E4B07C /* Command.swift in Sources */,
 				E12AEF272B190E3D00E4B07C /* AXMenuBar.swift in Sources */,
 				E1E6B92A2B1CEE0F005FA0F2 /* ApplicationScene.swift in Sources */,
 			);

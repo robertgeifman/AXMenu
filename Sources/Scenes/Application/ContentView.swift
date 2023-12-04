@@ -10,12 +10,12 @@ import SwiftUIAdditions
 
 struct ContentView: View {
 	@State var sidebarSplitItem: NSSplitViewItem?
-	@State var selection: Selection<Application> = []
+	@EnvironmentObject var scene: SceneState
 
 	var body: some View {
 		NavigationView {
-			AppList(selection: $selection)
-			AppView(application: $selection)
+			AppList(selection: $scene.selectedApplications)
+			AppView(selection: $scene.selectedApplications)
 		}
 		.navigationViewStyle(DoubleColumnNavigationViewStyle())
 		.sibling(ofType: NSSplitView.self) {
