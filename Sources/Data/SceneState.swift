@@ -16,7 +16,7 @@ import Combine
 // MARK: - SceneState
 final class SceneState: ObservableObject {
 	@Published var applications: [Application] = []
-	@Published var selectedApplications: Selection<Application> = []
+	@Published var selectedApplication: Application.ID?
 	var cancellables: Set<AnyCancellable> = []
 
 	@MainActor
@@ -42,43 +42,54 @@ final class SceneState: ObservableObject {
 	@MainActor
 	init(snapshot: Snapshot) throws {
 		applications = try snapshot.applications.map { try .init(snapshot: $0) }
-		selectedApplications = try .init(snapshot: snapshot.selectedApplications)
+		selectedApplication = snapshot.selectedApplication
 	}
 
-	func addApplication(_ application: Application) {
+	func application(withId id: Application.ID) -> Application? {
+		applications.first { $0.id == id }
+	}
+	func addApplication(_ application: Application, shoudSelect: Bool = true) {
 		if nil == applications.first(where: { $0.id == application.id }) {
 			applications = applications.appending(application).sorted {
 				$0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
 			}
 		}
-		selectedApplications = [application]
+		if shoudSelect {
+			selectedApplication = application.id
+		}
+	}
+	func setMenus(_ menus: [Application.MenuGroup], forApplication applicationId: String) {
+		guard let application = applications.drop(while:  { $0.id == applicationId }).first else { return }
+		application.menus = menus
+		addApplication(application, shoudSelect: false)
 	}
 }
 
 // MARK: - SceneState.Snapshot
 extension SceneState: SnapshotCodable {
 	struct Snapshot: Codable {
-		let applications: [Application.Snapshot]
-		let selectedApplications: Selection<Application>.Snapshot
+		let applications: [Application].Snapshot
+		let selectedApplication: Application.ID?
 	}
 
 	var snapshot: Snapshot {
 		.init(applications: applications.snapshot,
-			selectedApplications: selectedApplications.snapshot)
+			selectedApplication: selectedApplication)
 	}
 }
 
 extension SceneState.Snapshot: PListCodable {
 	var dictionaryRepresentation: [String: Any] {
-		[
+		configure([
 			"applications": applications.dictionaryRepresentation,
-			"selectedApplications": selectedApplications.dictionaryRepresentation
-		]
+		]) {
+			if let selectedApplication { $0["selectedApplication"] = selectedApplication }
+		}
 	}
 
 	init(dictionaryRepresentation representation: Any?) throws {
 		let representation = try representation as? [String:Any] ?! TypeMismatchError(representation, expected: [String:Any].self)
-		applications = try .init(dictionaryRepresentation: representation["applications"])
-		selectedApplications = try .init(dictionaryRepresentation: representation["selectedApplications"])
+		applications = try representation["applications"].map { try .init(dictionaryRepresentation: $0) } ?? []
+		selectedApplication = try representation["selectedApplications"] as? Application.ID
 	}
 }

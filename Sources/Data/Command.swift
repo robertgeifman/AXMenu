@@ -88,9 +88,9 @@ extension Application.Command.Snapshot: PListCodable {
 			"index": index,
 			"title": title,
 			"mode": mode
-		]) { rep in
-			if let shortcut { rep["shortcut"] = shortcut }
-			if let command { rep["command"] = command }
+		]) { 
+			if let shortcut { $0["shortcut"] = shortcut }
+			if let command { $0["command"] = command }
 		}
 	}
 	init(dictionaryRepresentation representation: Any?) throws {

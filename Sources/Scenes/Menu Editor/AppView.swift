@@ -14,13 +14,47 @@ import SwiftUIAdditions
 
 // MARK: - AppView
 struct AppView: View {
-	@Binding var selection: Selection<Application>
+	@EnvironmentObject var scene: SceneState
+	@Environment(\.runningApplications) var applications
+	@Binding var selectedApplication: Application.ID?
 
 	var body: some View {
-		if let first = selection.first {
-			MenuView(application: first.value)
+		Group {
+		if let selectedApplication,
+			let application = scene.application(withId: selectedApplication) {
+			if let menus = application.menus {
+				MenuView(menus: menus)
+				.navigationSubtitle(Text(application.name))
+			} else {
+				LoadMenusView(application: application)
+				.navigationSubtitle(Text(application.name))
+			}
 		} else {
 			NoSelectionView()
+			.navigationSubtitle("")
+		}
+		}
+		.toolbar {
+			ToolbarItem {
+				Menu {
+					Command("Add Application…", \.addApplication)
+					.keyboardShortcut("A", modifiers: [.command, .option])
+					Divider()
+	//				Command("Add Running Application…", \.addRunningApplication)
+	//				.keyboardShortcut("A", modifiers: [.command, .option])
+					ForEach(applications, id: \.id) { runningApplication in
+						Button {
+							if let application = Application(runningApplication) {
+								scene.addApplication(application)
+							}
+						} label: {
+							Text(runningApplication.name)
+						}
+					}
+				} label: {
+		            Label("Add New", systemImage: "plus")
+				}
+			}
 		}
 	}
 }

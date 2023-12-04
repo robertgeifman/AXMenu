@@ -11,20 +11,30 @@ import Foundation
 import FoundationAdditions
 import SwiftUI
 import SwiftUIAdditions
+import AXEssibility
 
 // MARK: - LoadMenusView
 struct LoadMenusView: View {
+	@EnvironmentObject var scene: SceneState
 	var application: Application
 	@State var lastError: Error? = nil
 	@State var accessibilityEnabled = AXIsProcessTrusted()
 
+	var workspace: NSWorkspace { .shared }
 	var body: some View {
+		content
+		.alert(error: $lastError, dismissButton: "OK") { lastError = nil }
+	}
+	
+	@ViewBuilder var content: some View {
 		if accessibilityEnabled {
 			Button {
+				perform(error: $lastError) {
+					try loadApplicationMenus()
+				}
 			} label: {
 				Text("Load Application Menus")
 			}
-			.alert(error: $lastError, dismissButton: "OK") { lastError = nil }
 		} else {
 			Button {
 				isAccessibilityEnabled(withPrompt: true)
@@ -38,6 +48,23 @@ struct LoadMenusView: View {
 	}
 
 	func loadApplicationMenus() throws {
+		guard let url = workspace.urlForApplication(withBundleIdentifier: application.id) else {
+			throw UnexpectedNilError("Error launching \(application.name)")
+		}
+		Task {
+			let app = try await workspace.openApplication(at: url, configuration: configure(.init()) {
+				$0.hides = true
+				$0.activates = false
+				$0.addsToRecentItems = false
+				$0.allowsRunningApplicationSubstitution = false
+			})
+			guard let runningApp = RunningApplication(app) else {
+				throw UnexpectedNilError("Error launching \(application.name)")
+			}
+			let menus = try AXMenuBar.menuBar(for: runningApp)
+			scene.setMenus(menus, forApplication: application.id)
+			application.menus = menus
+		}
 	}
 
 	@discardableResult

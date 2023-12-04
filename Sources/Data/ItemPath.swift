@@ -81,7 +81,7 @@ extension Application.ItemPath.Snapshot: PListCodable {
 	}
 	init(dictionaryRepresentation representation: Any?) throws {
 		let representation = try representation as? [String:Any] ?! TypeMismatchError(representation, expected: [String:Any].self)
-		elements = try .init(dictionaryRepresentation: representation["elements"])
+		elements = try representation["elements"].map { try .init(dictionaryRepresentation: $0) } ?? []
 	}
 }
 

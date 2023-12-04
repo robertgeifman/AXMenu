@@ -90,6 +90,6 @@ extension Application.MenuGroup.Snapshot: PListCodable {
 		path = try .init(dictionaryRepresentation: representation["path"])
 		index = try representation["index"] as? Int ?! UnexpectedNilError()
 		title = try representation["title"] as? String ?! UnexpectedNilError()
-		items = try .init(dictionaryRepresentation: representation["items"])
+		items = try representation["items"].map { try .init(dictionaryRepresentation: $0) } ?! UnexpectedNilError()
 	}
 }

@@ -16,15 +16,21 @@ import SwiftUIAdditions
 struct AppList: View {
 	@EnvironmentObject var scene: SceneState
 	@State var lastError: Error? = nil
-	@Binding var selection: Selection<Application>
+	@State var selection: Selection<Application> = []
 
 	var body: some View {
-		OutlineView(scene.applications, selection: $scene.selectedApplications) {
+		OutlineView(scene.applications, selection: $selection) {
 			ForEach_(scene.applications) { item in
 				Item(item) {
 					Text($0.name)
 				}
 			}
+			.onSelectionChange {
+				scene.selectedApplication = $0.first?.value.id
+			}
+		}
+		.toolbar {
+			ToolbarItem { SidebarActionMenu() }
 		}
 		.selectionType(.one)
 		.outlineViewStyle(.sourceList)
@@ -70,5 +76,12 @@ struct AppList: View {
 			}
 		}
 		.alert(error: $lastError, dismissButton: "OK") { lastError = nil }
+	}
+}
+
+// MARK: - SidebarActionMenu
+struct SidebarActionMenu: View {
+	var body: some View {
+		Button(systemName: "sidebar.left", action: toggleSidebar)
 	}
 }

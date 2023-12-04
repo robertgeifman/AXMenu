@@ -26,25 +26,17 @@ struct Application: Identifiable {
 		menus = nil
 		commands = []
 	}
+
+	init?(_ application: NSRunningApplication) {
+		guard
+			let url = application.bundleURL,
+			let bundle = Bundle(url: url) else { return nil }
+		self.init(bundle)
+	}
+
 	init?(_ bundle: Bundle) {
 		guard let identifier = bundle.bundleIdentifier,
 			let plist = bundle.infoDictionary else { return nil }
-
-		if let value = plist["LSBackgroundOnly"] as? Bool, value { return nil }
-		if let value = plist["LSUIElement"] as? Bool, value { return nil }
-		if let value = plist["CFBundlePackageType"] as? String, value != "APPL" { return nil }
-		if let value = plist["LSUIPresentationMode"] as? Int, value != 0 { return nil }
-
-		id = identifier
-		name = plist[kCFBundleNameKey as String] as? String ?? id
-		menus = nil
-		commands = []
-	}
-	init?(_ application: NSRunningApplication) {
-		guard let identifier = application.bundleIdentifier,
-			let url = application.bundleURL,
-			let bundle = Bundle(url: url),
-			let plist = bundle.infoDictionary  else { return nil }
 
 		if let value = plist["LSBackgroundOnly"] as? Bool, value { return nil }
 		if let value = plist["LSUIElement"] as? Bool, value { return nil }
@@ -62,18 +54,21 @@ struct Application: Identifiable {
 extension Application: SnapshotCodable {
 	struct Snapshot: Identifiable, Hashable, Codable {
 		let id: Application.ID
+		let name: String
 		let menus: [MenuGroup].Snapshot?
 		let commands: [Command].Snapshot
 	}
 
 	var snapshot: Snapshot {
 		.init(id: id,
+			name: name,
 			menus: menus?.snapshot,
 			commands: commands.snapshot)
 	}
 
 	init(snapshot: Snapshot) throws {
 		id = snapshot.id
+		name = snapshot.name
 		menus = try snapshot.menus.map { try .init(snapshot:$0) }
 		commands = try .init(snapshot: snapshot.commands)
 	}
@@ -83,18 +78,18 @@ extension Application.Snapshot: PListCodable {
 	var dictionaryRepresentation: [String: Any] {
 		configure([
 			"id": id,
+			"name": name,
 			"commands": commands.dictionaryRepresentation,
-		]) { rep in
-			if let menus { rep["menus"] = menus }
+		]) {
+			if let menus { $0["menus"] = menus.dictionaryRepresentation }
 		}
 	}
 
 	init(dictionaryRepresentation representation: Any?) throws {
 		let representation = try representation as? [String:Any] ?! TypeMismatchError(representation, expected: [String:Any].self)
 		id = try representation["id"] as? String ?! UnexpectedNilError()
-		menus = try representation["menus"].map {
-			try .init(dictionaryRepresentation: $0 as? [[String: Any]] ?! UnexpectedNilError())
-		}
-		commands = try .init(dictionaryRepresentation: representation["commands"])
+		name = try representation["name"] as? String ?! UnexpectedNilError()
+		menus = try .init(dictionaryRepresentation: representation["menus"])
+		commands = try representation["commands"].map { try .init(dictionaryRepresentation: $0) } ?? []
 	}
 }

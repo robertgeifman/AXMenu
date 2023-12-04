@@ -77,8 +77,8 @@ extension Application.MenuItem.Snapshot: PListCodable {
 			"path": path.dictionaryRepresentation,
 			"index": index,
 			"title": title,
-		]) { rep in
-			if let shortcut { rep["shortcut"] = shortcut }
+		]) { 
+			if let shortcut { $0["shortcut"] = shortcut }
 		}
 	}
 	init(dictionaryRepresentation representation: Any?) throws {

@@ -14,9 +14,10 @@ struct ContentView: View {
 
 	var body: some View {
 		NavigationView {
-			AppList(selection: $scene.selectedApplications)
-			AppView(selection: $scene.selectedApplications)
+			AppList()
+			AppView(selectedApplication: $scene.selectedApplication)
 		}
+		.navigationTitle(Text("Speakable Commands"))
 		.navigationViewStyle(DoubleColumnNavigationViewStyle())
 		.sibling(ofType: NSSplitView.self) {
 			if let delegate = $0.delegate as? NSSplitViewController, let first = delegate.splitViewItems.first {
