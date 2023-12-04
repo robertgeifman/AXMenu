@@ -17,12 +17,7 @@ import Combine
 // MARK: - MenuItemView
 struct MenuItemView: View {
 	let item: Application.MenuItem
-	@AppStorage var isSelected: Bool
-
-	init(item: Application.MenuItem) {
-		self.item = item
-		_isSelected = AppStorage(wrappedValue: false, item.id)
-	}
+	@Binding var isSelected: Bool
 
 	var body: some View {
 		HStack(alignment: .top) {

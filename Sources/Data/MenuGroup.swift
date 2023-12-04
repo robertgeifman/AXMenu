@@ -22,7 +22,7 @@ extension Application {
 		@Property var items: [Application.MenuItem]
 
 		init(app: String, path: ItemPath, index: Int, title: String, items: [Application.MenuItem] = []) {
-			id = app + "." + path.id + "." + title + "@\(index)"
+			id = app + "." + path.id + "@\(index)"
 			self.path = path
 			self.index = index
 			self.title = title

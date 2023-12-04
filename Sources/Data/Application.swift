@@ -18,12 +18,14 @@ struct Application: Identifiable {
 	@Property var id: String
 	@Property var name: String
 	@Property var menus: [MenuGroup]?
+	@Property var menuGroups: Set<MenuGroup.ID>
 	@Property var commands: [Command]
 
 	init?(_ application: RunningApplication) {
 		id = application.id
 		name = application.name
 		menus = nil
+		menuGroups = []
 		commands = []
 	}
 
@@ -56,6 +58,7 @@ extension Application: SnapshotCodable {
 		let id: Application.ID
 		let name: String
 		let menus: [MenuGroup].Snapshot?
+		let menuGroups: [MenuGroup.ID]
 		let commands: [Command].Snapshot
 	}
 
@@ -63,6 +66,7 @@ extension Application: SnapshotCodable {
 		.init(id: id,
 			name: name,
 			menus: menus?.snapshot,
+			menuGroups: menuGroups.map { $0 },
 			commands: commands.snapshot)
 	}
 
@@ -70,6 +74,7 @@ extension Application: SnapshotCodable {
 		id = snapshot.id
 		name = snapshot.name
 		menus = try snapshot.menus.map { try .init(snapshot:$0) }
+		menuGroups = Set(snapshot.menuGroups)
 		commands = try .init(snapshot: snapshot.commands)
 	}
 }
@@ -79,6 +84,7 @@ extension Application.Snapshot: PListCodable {
 		configure([
 			"id": id,
 			"name": name,
+			"menuGroups":menuGroups,
 			"commands": commands.dictionaryRepresentation,
 		]) {
 			if let menus { $0["menus"] = menus.dictionaryRepresentation }
@@ -90,6 +96,7 @@ extension Application.Snapshot: PListCodable {
 		id = try representation["id"] as? String ?! UnexpectedNilError()
 		name = try representation["name"] as? String ?! UnexpectedNilError()
 		menus = try .init(dictionaryRepresentation: representation["menus"])
+		menuGroups = representation["menuGroups"] as? [Application.MenuGroup.ID] ?? []
 		commands = try representation["commands"].map { try .init(dictionaryRepresentation: $0) } ?? []
 	}
 }

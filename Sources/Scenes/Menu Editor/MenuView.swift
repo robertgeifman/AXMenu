@@ -16,22 +16,27 @@ import AXEssibility
 // MARK: - MenuView
 struct MenuView: View {
 	@EnvironmentObject var scene: SceneState
-	var menus: [Application.MenuGroup]
-	@State var selection: Selection<Application.MenuItem> = []
+	@Binding var application: Application
+	@State var selection: Selection<Application.MenuGroup> = []
+
 	var body: some View {
-		OutlineView(menus, selection: $selection) {
-			ForEach_(menus) { group in
-				OutlineGroup_(group) { item in //, isExpanded: $scene.sidebarGroups.contains(value.id)) {
+		OutlineView(application.menus ?? [], selection: $selection) {
+			ForEach_(application.menus ?? []) { group in
+				OutlineGroup_(group,
+					isExpanded: $application.menuGroups.contains(group.id)) { item in
 					Item(item) {
-						MenuItemView(item: $0)
+						MenuItemView(item: $0, isSelected: .constant(false))
 					}
 				} header: { group in
 					MenuGroupView(group: group)
 						.fontWeight(.bold).foregroundColor(.secondary)
 				}
 			}
+			.onSelectionChange { (selection: Selection<Application.MenuGroup>) in
+				print(selection.map(\.id))
+			}
 		}
-		.selectionType(.leastOne)
+		.selectionType(.any)
 		.separatorVisibility(.hidden)
 		.separatorInsets(NSEdgeInsets(top: 0, left: 23, bottom: 0, right: 0))
 		.tint(.accentColor)
