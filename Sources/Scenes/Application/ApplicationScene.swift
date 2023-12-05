@@ -45,7 +45,7 @@ struct ApplicationScene: Scene {
 // MARK: - EnvironmentValues - ActionStoreKey
 extension EnvironmentValues {
 	struct SceneStateKey: EnvironmentKey {
-		static var defaultValue: SceneState = .init(_applications: [])
+		static var defaultValue: SceneState = .init(_applications: [:])
 	}
 
 	var sceneState: SceneStateKey.Value {

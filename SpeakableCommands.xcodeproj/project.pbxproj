@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E12AEF192B17C53500E4B07C /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = E12AEF182B17C53500E4B07C /* SQLite */; };
 		E12AEF272B190E3D00E4B07C /* AXMenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12AEF262B190E3D00E4B07C /* AXMenuBar.swift */; };
 		E12AEF292B190FC400E4B07C /* MenuGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12AEF282B190FC400E4B07C /* MenuGroup.swift */; };
 		E136A4C32B1DEB9100221F6B /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = E136A4C22B1DEB9100221F6B /* Command.swift */; };
@@ -35,7 +34,6 @@
 
 /* Begin PBXFileReference section */
 		E12AEF162B174F1D00E4B07C /* AXMenu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AXMenu.entitlements; sourceTree = "<group>"; };
-		E12AEF172B17C51A00E4B07C /* sqlite */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = sqlite; path = Packages/sqlite; sourceTree = "<group>"; };
 		E12AEF262B190E3D00E4B07C /* AXMenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXMenuBar.swift; sourceTree = "<group>"; };
 		E12AEF282B190FC400E4B07C /* MenuGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuGroup.swift; sourceTree = "<group>"; };
 		E136A4C22B1DEB9100221F6B /* Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
@@ -69,7 +67,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E12AEF192B17C53500E4B07C /* SQLite in Frameworks */,
 				E18711CE2B161C2400EA4C65 /* AXEssibility in Frameworks */,
 				E18711CB2B161C1800EA4C65 /* SwiftUIAdditions in Frameworks */,
 			);
@@ -102,7 +99,6 @@
 				E16302C92B152F5A00702F3C /* AXEssibility */,
 				E16302CA2B152F5A00702F3C /* FoundationAdditions */,
 				E16302CB2B152F5A00702F3C /* SwiftUIAdditions */,
-				E12AEF172B17C51A00E4B07C /* sqlite */,
 				E16302A52B15085200702F3C /* Resources */,
 				E1B5C7452B13C9BC00F5FA04 /* Products */,
 				E14336852B13CA6D0007B603 /* Frameworks */,
@@ -206,7 +202,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				E12AEF1B2B17C54300E4B07C /* PBXTargetDependency */,
 				E16302C62B151CA300702F3C /* PBXTargetDependency */,
 				E14336842B13CA680007B603 /* PBXTargetDependency */,
 			);
@@ -214,7 +209,6 @@
 			packageProductDependencies = (
 				E18711CA2B161C1800EA4C65 /* SwiftUIAdditions */,
 				E18711CD2B161C2400EA4C65 /* AXEssibility */,
-				E12AEF182B17C53500E4B07C /* SQLite */,
 			);
 			productName = AXMenu;
 			productReference = E1B5C7442B13C9BC00F5FA04 /* SpeakableCommands.app */;
@@ -299,10 +293,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		E12AEF1B2B17C54300E4B07C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = E12AEF1A2B17C54300E4B07C /* SQLite */;
-		};
 		E14336842B13CA680007B603 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = E14336832B13CA680007B603 /* AXEssibility */;
@@ -348,6 +338,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -411,6 +402,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -442,6 +434,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = HPSN4NS7JC;
 				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
@@ -471,6 +464,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = HPSN4NS7JC;
 				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
@@ -525,14 +519,6 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E12AEF182B17C53500E4B07C /* SQLite */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SQLite;
-		};
-		E12AEF1A2B17C54300E4B07C /* SQLite */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SQLite;
-		};
 		E14336832B13CA680007B603 /* AXEssibility */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AXEssibility;

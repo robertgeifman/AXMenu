@@ -16,11 +16,13 @@ import SwiftUIAdditions
 struct AppList: View {
 	@EnvironmentObject var scene: SceneState
 	@State var lastError: Error? = nil
+	@State var willRemove = false
 	@State var selection: Selection<Application> = []
+	@FocusState_.Binding var focus: Focus?
 
 	var body: some View {
-		OutlineView(scene.applications, selection: $selection) {
-			ForEach_(scene.applications) { item in
+		OutlineView(scene.applications.values, selection: $selection) {
+			ForEach_(scene.applications.values) { item in
 				Item(item) {
 					Text($0.name)
 				}
@@ -29,10 +31,20 @@ struct AppList: View {
 				scene.selectedApplication = $0.first?.value.id
 			}
 		}
+		.focused($focus, equals: .appList)
+//		.onCommand(\.copy) {
+//			print("On copy list")
+//		}
+//		.onCommand(#selector(NSText.copy)) {
+//			print("Copy")
+//		}
+//		.onCommand(#selector(NSStandardKeyBindingResponding.deleteBackward)) {
+//			print("Delete")
+//		}
 		.toolbar {
 			ToolbarItem { SidebarActionMenu() }
 		}
-		.selectionType(.one)
+		.selectionType(.any)
 		.outlineViewStyle(.sourceList)
 		.separatorVisibility(.hidden)
 		.separatorInsets(NSEdgeInsets(top: 0, left: 23, bottom: 0, right: 0))
@@ -45,7 +57,7 @@ struct AppList: View {
 				directoryURL = url
 			} else {
 				let urls = FileManager.default.urls(for: .applicationDirectory, in: .allDomainsMask)
-				if let url = user.first {
+				if let url = urls.first {
 					directoryURL = url
 				} else {
 					directoryURL = URL(fileURLWithPath: "/Applications")
@@ -60,12 +72,12 @@ struct AppList: View {
 				$0.allowsMultipleSelection = true
 				$0.canChooseDirectories = false
 				$0.canCreateDirectories = false
+//				$0.title = "Add Application"
+				$0.message = "Add Application"
+				$0.prompt = "Select"
 //				$0.accessoryView = nil
 //				$0.isExpanded = false
 //				$0.showsHiddenFiles = false
-				$0.prompt = "Select"
-//				$0.title = "Add Application"
-				$0.message = "Add Application"
 			}
 
 			guard panel.runModal() == .OK else { return }
@@ -75,7 +87,20 @@ struct AppList: View {
 				scene.addApplication(application)
 			}
 		}
+		.onCommand(\.removeApplication) {
+			willRemove = true
+		}
 		.alert(error: $lastError, dismissButton: "OK") { lastError = nil }
+		.alert(isPresented: $willRemove) {
+			Alert(
+				title: Text("Remove Applications"),
+				message: Text("Are you sure you want to remove the selected application(s)?"),
+				primaryButton: .default(Text("Cancel")) {
+				},
+				secondaryButton: .destructive(Text("Remove")) {
+				}
+			)
+		}
 	}
 }
 

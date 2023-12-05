@@ -16,5 +16,6 @@ import SwiftUIAdditions
 struct NoSelectionView: View {
 	var body: some View {
 		Text("Nothing Selected")
+		.navigationSubtitle("")
 	}
 }

@@ -16,7 +16,7 @@ import AXEssibility
 // MARK: - LoadMenusView
 struct LoadMenusView: View {
 	@EnvironmentObject var scene: SceneState
-	var application: Application
+	@Binding var application: Application
 	@State var lastError: Error? = nil
 	@State var accessibilityEnabled = AXIsProcessTrusted()
 
@@ -24,6 +24,7 @@ struct LoadMenusView: View {
 	var body: some View {
 		content
 		.alert(error: $lastError, dismissButton: "OK") { lastError = nil }
+		.navigationSubtitle(Text(application.name))
 	}
 	
 	@ViewBuilder var content: some View {

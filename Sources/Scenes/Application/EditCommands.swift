@@ -18,7 +18,22 @@ struct EditCommands: Commands {
 
 	var body: some Commands {
 		TextEditingCommands()
-		CommandGroup(after: .pasteboard) {
+//		CommandGroup(replacing: .undoRedo) {
+//			Button("Undo") { undoManager?.undo() }
+//				.disabled(!(undoManager?.canUndo ?? false))
+//				.keyboardShortcut("z", modifiers: [.command])
+//			Button("Redo") { undoManager?.redo() }
+//				.disabled(!(undoManager?.canRedo ?? false))
+//				.keyboardShortcut("z", modifiers: [.command, .shift])
+//			Command("Undo") { undoManager.undo() }.keyboardShortcut("z", modifiers: [.command])
+//			Command("Redo") { undoManager.redo() }.keyboardShortcut("z", modifiers: [.command, .shift])
+//		}
+		CommandGroup(replacing: .pasteboard) {
+			Command("Cut", \.cut).keyboardShortcut(KeyEquivalent("x"), modifiers: /*@START_MENU_TOKEN@*/.command/*@END_MENU_TOKEN@*/)
+			Command("Copy", \.copy).keyboardShortcut(KeyEquivalent("c"), modifiers: /*@START_MENU_TOKEN@*/.command/*@END_MENU_TOKEN@*/)
+			Command("Paste", \.paste).keyboardShortcut(KeyEquivalent("v"), modifiers: /*@START_MENU_TOKEN@*/.command/*@END_MENU_TOKEN@*/)
+			Command("Delete", \.delete).keyboardShortcut(.delete, modifiers: [])
+			Command("Select All", \.selectAll).keyboardShortcut(KeyEquivalent("a"), modifiers: /*@START_MENU_TOKEN@*/.command/*@END_MENU_TOKEN@*/)
 			Divider()
 			Menu("Add Application") {
 				Command("Add Application…", \.addApplication)
@@ -40,10 +55,11 @@ struct EditCommands: Commands {
 	}
 }
 
-// MARK: - FindAction
+// MARK: - Custom actions
 extension ActionStore {
 	struct AddApplicationKey: ActionKey {}
 	struct AddRunningApplicationKey: ActionKey {}
+	struct RemoveApplicationKey: ActionKey {}
 
 	var addApplication: AddApplicationKey.Value {
 		get { self[AddApplicationKey.self] }
@@ -52,5 +68,9 @@ extension ActionStore {
 	var addRunningApplication: AddRunningApplicationKey.Value {
 		get { self[AddRunningApplicationKey.self] }
 		set { self[AddRunningApplicationKey.self] = newValue }
+	}
+	var removeApplication: RemoveApplicationKey.Value {
+		get { self[RemoveApplicationKey.self] }
+		set { self[RemoveApplicationKey.self] = newValue }
 	}
 }

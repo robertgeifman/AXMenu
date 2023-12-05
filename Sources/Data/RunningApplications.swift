@@ -9,7 +9,6 @@ import Foundation
 import FoundationAdditions
 import SwiftUI
 import SwiftUIAdditions
-import SQLite
 
 // MARK: - RunningApplications
 final class RunningApplications: ObservableObject {

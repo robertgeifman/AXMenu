@@ -8,14 +8,17 @@
 import SwiftUI
 import SwiftUIAdditions
 
+enum Focus: Hashable {
+	case appList, menuView, searchField
+}
 struct ContentView: View {
 	@State var sidebarSplitItem: NSSplitViewItem?
 	@EnvironmentObject var scene: SceneState
-
+	@FocusState_ var focus: Focus?
 	var body: some View {
 		NavigationView {
-			AppList()
-			AppView(selectedApplication: $scene.selectedApplication)
+			AppList(focus: $focus)
+			AppView(focus: $focus, selectedApplication: $scene.selectedApplication)
 		}
 		.navigationTitle(Text("Speakable Commands"))
 		.navigationViewStyle(DoubleColumnNavigationViewStyle())

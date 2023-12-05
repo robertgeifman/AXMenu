@@ -18,47 +18,55 @@ struct Application: Identifiable {
 	@Property var id: String
 	@Property var name: String
 	@Property var menus: [MenuGroup]?
-	@Property var menuGroups: Set<MenuGroup.ID>
-	@Property var commands: [Command]
+	@Property var commands: [Command.ID: Command]
 
 	init?(_ application: RunningApplication) {
 		id = application.id
 		name = application.name
 		menus = nil
-		menuGroups = []
-		commands = []
+		commands = [:]
 	}
-
 	init?(_ application: NSRunningApplication) {
-		guard
-			let url = application.bundleURL,
+		guard let url = application.bundleURL,
 			let bundle = Bundle(url: url) else { return nil }
 		self.init(bundle)
 	}
-
 	init?(_ bundle: Bundle) {
 		guard let identifier = bundle.bundleIdentifier,
 			let plist = bundle.infoDictionary else { return nil }
 
 		if let value = plist["LSBackgroundOnly"] as? Bool, value { return nil }
 		if let value = plist["LSUIElement"] as? Bool, value { return nil }
-		if let value = plist["CFBundlePackageType"] as? String, value != "APPL" { return nil }
+		if let value = plist["CFBundlePackageType"] as? String, value != "APPL" && value != "FNDR" { return nil }
 		if let value = plist["LSUIPresentationMode"] as? Int, value != 0 { return nil }
 
 		id = identifier
-		name = plist[kCFBundleNameKey as String] as? String ?? id
+		name = bundle.localizedInfoDictionary?[kCFBundleNameKey as String] as? String
+			?? plist[kCFBundleNameKey as String] as? String
+			?? plist[kCFBundleExecutableKey as String] as? String
+			?? id
 		menus = nil
-		commands = []
+		commands = [:]
 	}
 }
 
-// MARK: - Application.Snapshot
+// MARK: - Hashable
+extension Application: Hashable {
+	static func == (a: Self, b: Self) -> Bool {
+		a.id == b.id
+	}
+
+	func hash(into hasher: inout Hasher) {
+		id.hash(into: &hasher)
+	}
+}
+
+// MARK: - SnapshotCodable
 extension Application: SnapshotCodable {
 	struct Snapshot: Identifiable, Hashable, Codable {
 		let id: Application.ID
 		let name: String
 		let menus: [MenuGroup].Snapshot?
-		let menuGroups: [MenuGroup.ID]
 		let commands: [Command].Snapshot
 	}
 
@@ -66,25 +74,23 @@ extension Application: SnapshotCodable {
 		.init(id: id,
 			name: name,
 			menus: menus?.snapshot,
-			menuGroups: menuGroups.map { $0 },
-			commands: commands.snapshot)
+			commands: commands.map { $1 }.snapshot)
 	}
 
 	init(snapshot: Snapshot) throws {
 		id = snapshot.id
 		name = snapshot.name
-		menus = try snapshot.menus.map { try .init(snapshot:$0) }
-		menuGroups = Set(snapshot.menuGroups)
-		commands = try .init(snapshot: snapshot.commands)
+		menus = try snapshot.menus.map { try .init(snapshot: $0) }
+		commands = try [Command](snapshot: snapshot.commands).mapKeysToValues(\.id)
 	}
 }
 
+// MARK: - Application.Snapshot: PListCodable
 extension Application.Snapshot: PListCodable {
 	var dictionaryRepresentation: [String: Any] {
 		configure([
 			"id": id,
 			"name": name,
-			"menuGroups":menuGroups,
 			"commands": commands.dictionaryRepresentation,
 		]) {
 			if let menus { $0["menus"] = menus.dictionaryRepresentation }
@@ -92,11 +98,11 @@ extension Application.Snapshot: PListCodable {
 	}
 
 	init(dictionaryRepresentation representation: Any?) throws {
-		let representation = try representation as? [String:Any] ?! TypeMismatchError(representation, expected: [String:Any].self)
+		let representation = try representation as? [String: Any] ?! TypeMismatchError(representation,
+			expected: [String: Any].self)
 		id = try representation["id"] as? String ?! UnexpectedNilError()
 		name = try representation["name"] as? String ?! UnexpectedNilError()
 		menus = try .init(dictionaryRepresentation: representation["menus"])
-		menuGroups = representation["menuGroups"] as? [Application.MenuGroup.ID] ?? []
 		commands = try representation["commands"].map { try .init(dictionaryRepresentation: $0) } ?? []
 	}
 }

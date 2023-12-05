@@ -16,36 +16,37 @@ import AXEssibility
 // MARK: - MenuView
 struct MenuView: View {
 	@EnvironmentObject var scene: SceneState
+	@FocusState_.Binding var focus: Focus?
 	@Binding var application: Application
+	@Binding var menus: [Application.MenuGroup]
 	@State var selection: Selection<Application.MenuGroup> = []
 
 	var body: some View {
-		OutlineView(application.menus ?? [], selection: $selection) {
-			ForEach_(application.menus ?? []) { group in
-				OutlineGroup_(group,
-					isExpanded: $application.menuGroups.contains(group.id)) { item in
+		OutlineView(menus, selection: $selection) {
+			ForEach_(menus) { index, menu in
+				OutlineGroup_(menu,
+					isExpanded: $menus[index].isExpanded) { itemIndex, item in
 					Item(item) {
-						MenuItemView(item: $0, isSelected: .constant(false))
+						if index == 0, itemIndex == 0 { let _ = print(item.id) }
+						MenuItemView(item: $0, isSelected: $menus[index][itemIndex].isSelected)
 					}
-				} header: { group in
-					MenuGroupView(group: group)
+				} header: { menu in
+					MenuGroupView(group: menu, isSelected: $menus[index].isSelected)
 						.fontWeight(.bold).foregroundColor(.secondary)
 				}
 			}
-			.onSelectionChange { (selection: Selection<Application.MenuGroup>) in
-				print(selection.map(\.id))
-			}
+			.onSelectionChange { (selection: Selection<Application.MenuGroup>) in }
+		}
+		.focused($focus, equals: .menuView)
+		.onCommand(\.copy) {
+			print("On copy menu")
 		}
 		.selectionType(.any)
 		.separatorVisibility(.hidden)
 		.separatorInsets(NSEdgeInsets(top: 0, left: 23, bottom: 0, right: 0))
 		.tint(.accentColor)
 		.rowSize(.default)
-//		.onAppear {
-//			groups = AXMenuBar.menuBar(for: application)
-//		}
-//		.onChange(of: application) {
-//			groups = AXMenuBar.menuBar(for: $0)
-//		}
+		.navigationSubtitle(Text(application.name))
+//		.toolbar {}
 	}
 }

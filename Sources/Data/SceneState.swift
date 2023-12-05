@@ -15,7 +15,7 @@ import Combine
 
 // MARK: - SceneState
 final class SceneState: ObservableObject {
-	@Published var applications: [Application] = []
+	@Published var applications: OrderedDictionary<Application.ID, Application> = [:]
 	@Published var selectedApplication: Application.ID?
 	var cancellables: Set<AnyCancellable> = []
 
@@ -26,7 +26,7 @@ final class SceneState: ObservableObject {
 			try self.init(snapshot: snapshot)
 		} catch {
 			log("error loading StateScene.Snapshot", error)
-			self.init(_applications: [])
+			self.init(_applications: [:])
 		}
 		NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)
 			.sink { _ in self.snapshot.store(in: UserDefaults.standard, key: "applications") }
@@ -36,32 +36,41 @@ final class SceneState: ObservableObject {
 			.store(in: &cancellables)
 	}
 
-	init(_applications applications: [Application]) {
+	init(_applications applications: [Application.ID: Application]) {
+		_applications = .init(wrappedValue: OrderedDictionary(applications) {
+			$0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+		})
+	}
+	init(_applications applications: OrderedDictionary<Application.ID, Application>) {
 		_applications = .init(wrappedValue: applications)
 	}
 	@MainActor
 	init(snapshot: Snapshot) throws {
-		applications = try snapshot.applications.map { try .init(snapshot: $0) }
+		let applications = try [Application](snapshot: snapshot.applications).sorted {
+			$0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+		}
+		self.applications = OrderedDictionary(applications, key: \.id)
 		selectedApplication = snapshot.selectedApplication
 	}
 
 	func application(withId id: Application.ID) -> Application? {
-		applications.first { $0.id == id }
+		applications[id]
 	}
 	func addApplication(_ application: Application, shoudSelect: Bool = true) {
-		if nil == applications.first(where: { $0.id == application.id }) {
-			applications = applications.appending(application).sorted {
-				$0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+		if nil == applications[application.id] {
+			var applications = applications.merging([application.id: application]) { $1 }
+			applications.sort {
+				$0.value.name.localizedCaseInsensitiveCompare($1.value.name) == .orderedAscending
 			}
+			self.applications = applications
 		}
 		if shoudSelect {
 			selectedApplication = application.id
 		}
 	}
 	func setMenus(_ menus: [Application.MenuGroup], forApplication applicationId: String) {
-		guard let application = applications.drop(while:  { $0.id == applicationId }).first else { return }
+		guard let application = applications[applicationId] else { return }
 		application.menus = menus
-		addApplication(application, shoudSelect: false)
 	}
 }
 
@@ -73,7 +82,7 @@ extension SceneState: SnapshotCodable {
 	}
 
 	var snapshot: Snapshot {
-		.init(applications: applications.snapshot,
+		.init(applications: applications.map { $1 }.snapshot,
 			selectedApplication: selectedApplication)
 	}
 }
@@ -90,6 +99,6 @@ extension SceneState.Snapshot: PListCodable {
 	init(dictionaryRepresentation representation: Any?) throws {
 		let representation = try representation as? [String:Any] ?! TypeMismatchError(representation, expected: [String:Any].self)
 		applications = try representation["applications"].map { try .init(dictionaryRepresentation: $0) } ?? []
-		selectedApplication = try representation["selectedApplications"] as? Application.ID
+		selectedApplication = representation["selectedApplications"] as? Application.ID
 	}
 }

@@ -19,6 +19,7 @@ extension Application {
 		@Property var index: Int
 		@Property var title: String
 		@Property var shortcut: String?
+		@Property var isSelected: Bool = false
 
 		init(app: String, path: ItemPath, index: Int, title: String, shortcut: String?) {
 			id = app + "." + path.id + "." + title + "@\(index)"
@@ -51,6 +52,7 @@ extension Application.MenuItem: SnapshotCodable {
 		let index: Int
 		let title: String
 		let shortcut: String?
+		let isSelected: Bool
 	}
 
 	var snapshot: Snapshot {
@@ -58,7 +60,8 @@ extension Application.MenuItem: SnapshotCodable {
 			path: path.snapshot,
 			index: index,
 			title: title,
-			shortcut: shortcut)
+			shortcut: shortcut,
+			isSelected: isSelected)
 	}
 
 	init(snapshot: Snapshot) throws {
@@ -67,6 +70,7 @@ extension Application.MenuItem: SnapshotCodable {
 		index = snapshot.index
 		title = snapshot.title
 		shortcut = snapshot.shortcut
+		isSelected = snapshot.isSelected
 	}
 }
 
@@ -77,7 +81,8 @@ extension Application.MenuItem.Snapshot: PListCodable {
 			"path": path.dictionaryRepresentation,
 			"index": index,
 			"title": title,
-		]) { 
+			"isSelected": isSelected,
+		]) {
 			if let shortcut { $0["shortcut"] = shortcut }
 		}
 	}
@@ -88,5 +93,6 @@ extension Application.MenuItem.Snapshot: PListCodable {
 		index = try representation["index"] as? Int ?! UnexpectedNilError()
 		title = try representation["title"] as? String ?! UnexpectedNilError()
 		shortcut = representation["shortcut"] as? String
+		isSelected = representation["isSelected"] as? Bool ?? false
 	}
 }

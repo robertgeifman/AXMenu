@@ -20,6 +20,8 @@ extension Application {
 		@Property var index: Int
 		@Property var title: String
 		@Property var items: [Application.MenuItem]
+		@Property var isSelected: Bool = false
+		@Property var isExpanded: Bool = false
 
 		init(app: String, path: ItemPath, index: Int, title: String, items: [Application.MenuItem] = []) {
 			id = app + "." + path.id + "@\(index)"
@@ -39,6 +41,7 @@ extension Application.MenuGroup: DeferredContainer, Encodable {
 extension Application.MenuGroup: RandomAccessCollection {
 	var startIndex: Int { items.startIndex }
 	var endIndex: Int { items.endIndex }
+	
 	func appending(_ item: Application.MenuItem) -> Self {
 		let result = self
 		result.items.append(item)
@@ -55,6 +58,8 @@ extension Application.MenuGroup: SnapshotCodable {
 		let index: Int
 		let title: String
 		let items: [Application.MenuItem.Snapshot]
+		let isSelected: Bool
+		let isExpanded: Bool
 	}
 
 	var snapshot: Snapshot {
@@ -62,7 +67,9 @@ extension Application.MenuGroup: SnapshotCodable {
 			path: path.snapshot,
 			index: index,
 			title: title,
-			items: items.snapshot)
+			items: items.snapshot,
+			isSelected: isSelected,
+			isExpanded: isExpanded)
 	}
 
 	init(snapshot: Snapshot) throws {
@@ -71,6 +78,8 @@ extension Application.MenuGroup: SnapshotCodable {
 		index = snapshot.index
 		title = snapshot.title
 		items = try .init(snapshot: snapshot.items)
+		isSelected = snapshot.isSelected
+		isExpanded = snapshot.isExpanded
 	}
 }
 
@@ -82,6 +91,8 @@ extension Application.MenuGroup.Snapshot: PListCodable {
 			"index": index,
 			"title": title,
 			"items": items.dictionaryRepresentation,
+			"isSelected": isSelected,
+			"isExpanded": isExpanded,
 		]
 	}
 	init(dictionaryRepresentation representation: Any?) throws {
@@ -91,5 +102,7 @@ extension Application.MenuGroup.Snapshot: PListCodable {
 		index = try representation["index"] as? Int ?! UnexpectedNilError()
 		title = try representation["title"] as? String ?! UnexpectedNilError()
 		items = try representation["items"].map { try .init(dictionaryRepresentation: $0) } ?! UnexpectedNilError()
+		isSelected = representation["isSelected"] as? Bool ?? false
+		isExpanded = representation["isExpanded"] as? Bool ?? false
 	}
 }

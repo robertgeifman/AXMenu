@@ -16,22 +16,21 @@ import SwiftUIAdditions
 struct AppView: View {
 	@EnvironmentObject var scene: SceneState
 	@Environment(\.runningApplications) var applications
+	@FocusState_.Binding var focus: Focus?
 	@Binding var selectedApplication: Application.ID?
+	@Environment(\.actionStore) var actionStore
 
 	var body: some View {
 		Group {
 			if let selectedApplication,
-				let application = scene.application(withId: selectedApplication) {
-				if nil != application.menus {
-					MenuView(application: Binding { application })
-						.navigationSubtitle(Text(application.name))
+				let application = Binding($scene.applications[selectedApplication]) {
+				if let menus = Binding(application.menus) {
+					MenuView(focus: $focus, application: application, menus: menus)
 				} else {
 					LoadMenusView(application: application)
-						.navigationSubtitle(Text(application.name))
 				}
 			} else {
 				NoSelectionView()
-					.navigationSubtitle("")
 			}
 		}
 		.toolbar {
@@ -52,6 +51,14 @@ struct AppView: View {
 				} label: {
 					Label("Add New", systemImage: "plus")
 				} primaryAction: {
+					actionStore.addApplication()
+				}
+			}
+			ToolbarItem {
+				Button {
+					actionStore.removeApplication()
+				} label: {
+					Label("Remove Application", systemImage: "minus")
 				}
 			}
 		}

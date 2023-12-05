@@ -11,7 +11,6 @@ import Foundation
 import FoundationAdditions
 import SwiftUI
 import SwiftUIAdditions
-import SQLite
 import AXEssibility
 
 // MARK: - AXMenuBar
