@@ -53,7 +53,7 @@ struct Application: Identifiable {
 // MARK: - Hashable
 extension Application: Hashable {
 	static func == (a: Self, b: Self) -> Bool {
-		a.id == b.id
+		a.id == b.id && a.menus == b.menus
 	}
 
 	func hash(into hasher: inout Hasher) {

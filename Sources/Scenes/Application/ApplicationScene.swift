@@ -15,7 +15,7 @@ struct ApplicationScene: Scene {
 	@Environment(\.actionStore) var actionStore
 	@StateObject var scene = SceneState()
 	@StateObject var runningApplications = RunningApplications()
-
+	@State var inspectorVisible = true
 	var body: some Scene {
 		WindowGroup {
 			ContentView()
@@ -33,6 +33,7 @@ struct ApplicationScene: Scene {
 		}
 		.commands {
 			EditCommands()
+		    InspectorCommands()
 		}
 		._environment(\.actionStore, actionStore)
 		._environment(\.sceneState, scene)

@@ -16,10 +16,11 @@ import SwiftUIAdditions
 struct MenuItemView: View {
 	let item: Application.MenuItem
 	@Binding var isSelected: Bool
+	@State var state: Bool = false
 
 	var body: some View {
 		HStack(alignment: .top) {
-			Toggle(isOn: $isSelected) {}
+			Toggle(isOn: $state) {}
 			.toggleStyle(.checkbox)
 
 			Text(item.title)
@@ -31,5 +32,7 @@ struct MenuItemView: View {
 			}
 		}
 		.frame(maxWidth: .infinity, alignment: .leading)
+		.onAppear { state = isSelected }
+		.onChange(of: state) { isSelected = $0 }
 	}
 }

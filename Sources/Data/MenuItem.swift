@@ -36,6 +36,9 @@ extension Application.MenuItem: Hashable {
 	func hash(into hasher: inout Hasher) {
 		id.hash(into: &hasher)
 	}
+	static func == (a: Self, b: Self) -> Bool {
+		a.id == b.id && a.isSelected == b.isSelected
+	}
 }
 
 // MARK: - Application.MenuItem: DeferredContainer, Encodable

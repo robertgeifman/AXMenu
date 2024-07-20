@@ -17,6 +17,8 @@
 		E169CE3F2B15C9D700B91C1F /* NoSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E169CE3E2B15C9D700B91C1F /* NoSelectionView.swift */; };
 		E18711CB2B161C1800EA4C65 /* SwiftUIAdditions in Frameworks */ = {isa = PBXBuildFile; productRef = E18711CA2B161C1800EA4C65 /* SwiftUIAdditions */; };
 		E18711CE2B161C2400EA4C65 /* AXEssibility in Frameworks */ = {isa = PBXBuildFile; productRef = E18711CD2B161C2400EA4C65 /* AXEssibility */; };
+		E191CFC22B3751BF00C2C0BA /* InspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E191CFC12B3751BF00C2C0BA /* InspectorView.swift */; };
+		E191CFC42B3761AA00C2C0BA /* sqlite in Resources */ = {isa = PBXBuildFile; fileRef = E191CFC32B3761AA00C2C0BA /* sqlite */; };
 		E19E4C272B19D20E00BD5CFD /* ItemPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19E4C262B19D20E00BD5CFD /* ItemPath.swift */; };
 		E1B5C7482B13C9BC00F5FA04 /* SpeakableCommandsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B5C7472B13C9BC00F5FA04 /* SpeakableCommandsApp.swift */; };
 		E1B5C74A2B13C9BC00F5FA04 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B5C7492B13C9BC00F5FA04 /* ContentView.swift */; };
@@ -46,6 +48,8 @@
 		E16302CB2B152F5A00702F3C /* SwiftUIAdditions */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftUIAdditions; path = Packages/SwiftUIAdditions; sourceTree = "<group>"; };
 		E169CE3C2B15C97800B91C1F /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		E169CE3E2B15C9D700B91C1F /* NoSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoSelectionView.swift; sourceTree = "<group>"; };
+		E191CFC12B3751BF00C2C0BA /* InspectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorView.swift; sourceTree = "<group>"; };
+		E191CFC32B3761AA00C2C0BA /* sqlite */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = sqlite; path = Packages/sqlite; sourceTree = "<group>"; };
 		E19E4C262B19D20E00BD5CFD /* ItemPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemPath.swift; sourceTree = "<group>"; };
 		E1B5C7442B13C9BC00F5FA04 /* SpeakableCommands.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpeakableCommands.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1B5C7472B13C9BC00F5FA04 /* SpeakableCommandsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakableCommandsApp.swift; sourceTree = "<group>"; };
@@ -99,6 +103,7 @@
 				E16302C92B152F5A00702F3C /* AXEssibility */,
 				E16302CA2B152F5A00702F3C /* FoundationAdditions */,
 				E16302CB2B152F5A00702F3C /* SwiftUIAdditions */,
+				E191CFC32B3761AA00C2C0BA /* sqlite */,
 				E16302A52B15085200702F3C /* Resources */,
 				E1B5C7452B13C9BC00F5FA04 /* Products */,
 				E14336852B13CA6D0007B603 /* Frameworks */,
@@ -130,6 +135,7 @@
 				E169CE3C2B15C97800B91C1F /* MenuView.swift */,
 				E1E6B92D2B1CF23D005FA0F2 /* LoadMenusView.swift */,
 				E16302A82B1508B900702F3C /* AppView.swift */,
+				E191CFC12B3751BF00C2C0BA /* InspectorView.swift */,
 			);
 			path = "Menu Editor";
 			sourceTree = "<group>";
@@ -171,9 +177,9 @@
 				E19E4C262B19D20E00BD5CFD /* ItemPath.swift */,
 				E1E830422B1C9A9700B793F4 /* Application.swift */,
 				E1E830412B1C9A9700B793F4 /* SceneState.swift */,
-				E12AEF262B190E3D00E4B07C /* AXMenuBar.swift */,
-				E142F2492B14E2C300984C8C /* RunningApplications.swift */,
 				E1E6B9312B1D073C005FA0F2 /* RunningApplication.swift */,
+				E142F2492B14E2C300984C8C /* RunningApplications.swift */,
+				E12AEF262B190E3D00E4B07C /* AXMenuBar.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -256,6 +262,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E191CFC42B3761AA00C2C0BA /* sqlite in Resources */,
 				E1B5C74C2B13C9BD00F5FA04 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,6 +292,7 @@
 				E16302A72B15086300702F3C /* AppList.swift in Sources */,
 				E1B5C7482B13C9BC00F5FA04 /* SpeakableCommandsApp.swift in Sources */,
 				E1E830432B1C9A9700B793F4 /* Application.swift in Sources */,
+				E191CFC22B3751BF00C2C0BA /* InspectorView.swift in Sources */,
 				E12AEF272B190E3D00E4B07C /* AXMenuBar.swift in Sources */,
 				E1E6B92A2B1CEE0F005FA0F2 /* ApplicationScene.swift in Sources */,
 			);

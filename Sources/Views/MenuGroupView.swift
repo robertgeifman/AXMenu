@@ -16,17 +16,20 @@ import SwiftUIAdditions
 struct MenuGroupView: View {
 	let group: Application.MenuGroup
 	@Binding var isSelected: Bool
+	@State var state: Bool = false
 
 	var body: some View {
 		HStack {
-			Toggle(isOn: $isSelected) {}
+			Toggle(isOn: $state) {}
 			.toggleStyle(.checkbox)
-			.onChange(of: isSelected) { 
-				for item in group.items {
-					item.isSelected = $0
-				}
-			}
 			Text(group.title)
+		}
+		.onAppear { state = isSelected }
+		.onChange(of: state) {
+			isSelected = $0
+			for item in group.items {
+				item.isSelected = $0
+			}
 		}
 	}
 }

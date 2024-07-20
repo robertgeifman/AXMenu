@@ -26,9 +26,8 @@ struct MenuView: View {
 			ForEach_(menus) { index, menu in
 				OutlineGroup_(menu,
 					isExpanded: $menus[index].isExpanded) { itemIndex, item in
-					Item(item) {
-						if index == 0, itemIndex == 0 { let _ = print(item.id) }
-						MenuItemView(item: $0, isSelected: $menus[index][itemIndex].isSelected)
+					Item(item) { item in
+						MenuItemView(item: item, isSelected: $menus[index][itemIndex].isSelected)
 					}
 				} header: { menu in
 					MenuGroupView(group: menu, isSelected: $menus[index].isSelected)
@@ -48,5 +47,8 @@ struct MenuView: View {
 		.rowSize(.default)
 		.navigationSubtitle(Text(application.name))
 //		.toolbar {}
+//		.inspector(isPresented: $inspectorVisible) {
+//			InspectorView()
+//		}
 	}
 }

@@ -14,7 +14,7 @@ import SwiftUIAdditions
 
 // MARK: - Application.MenuGroup
 extension Application {
-	struct MenuGroup: Hashable, Identifiable {
+	struct MenuGroup: Identifiable {
 		@Property var id: String
 		@Property var path: ItemPath
 		@Property var index: Int
@@ -29,6 +29,13 @@ extension Application {
 			self.index = index
 			self.title = title
 		}
+	}
+}
+
+// MARK: - Application.MenuGroup: Hashable {
+extension Application.MenuGroup: Hashable {
+	static func == (a: Self, b: Self) -> Bool {
+		a.id == b.id && a.isSelected == b.isSelected
 	}
 }
 
