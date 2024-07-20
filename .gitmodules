@@ -1,0 +1,36 @@
+[submodule "Packages/AXEssibility"]
+	path = Packages/AXEssibility
+	url = https://github.com/robertgeifman/AXEssibility
+[submodule "Packages/FoundationAdditions"]
+	path = Packages/FoundationAdditions
+	url = git://localhost/FoundationAdditions
+[submodule "Packages/PocketSVG"]
+	path = Packages/PocketSVG
+	url = git://localhost/PocketSVG
+[submodule "Packages/SwiftUIAdditions"]
+	path = Packages/SwiftUIAdditions
+	url = git://localhost/SwiftUIAdditions
+[submodule "Packages/SQLite"]
+	path = Packages/SQLite
+	url = git://localhost/SQLite
+[submodule "Packages/Undoable"]
+	path = Packages/Undoable
+	url = git://localhost/Undoable
+[submodule "Packages/CoreTextAdditions"]
+	path = Packages/CoreTextAdditions
+	url = git://localhost/CoreTextAdditions
+[submodule "Packages/swift-macro-testing"]
+	path = Packages/swift-macro-testing
+	url = git://localhost/swift-macro-testing
+[submodule "Packages/swift-snapshot-testing"]
+	path = Packages/swift-snapshot-testing
+	url = git://localhost/swift-snapshot-testing
+[submodule "Packages/swift-macro-toolkit"]
+	path = Packages/swift-macro-toolkit
+	url = git://localhost/swift-macro-toolkit
+[submodule "Packages/VectorKit"]
+	path = Packages/VectorKit
+	url = git://localhost/VectorKit
+[submodule "Packages/reflection-mirror"]
+	path = Packages/reflection-mirror
+	url = git://localhost/reflection-mirror
