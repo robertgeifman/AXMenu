@@ -45,7 +45,6 @@ xcuserdata
 .swiftpm
 .build
 *.xcodeproj
-Packages
 
 # CocoaPods
 #
